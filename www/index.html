@@ -3,9 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Διαδραστικός Δημιουργός Βιογραφικού - Dynamic Flow & Spillover Studio</title>
+  <title>Διαδραστικός Δημιουργός Βιογραφικού - Mobile Studio</title>
   <script src="https://cdn.tailwindcss.com"></script>
   
+  <!-- html2pdf.js για αυτόματη λήψη PDF σε κινητά & PC -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400&family=Comfortaa:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400&family=Fira+Code:wght@400;600&family=Fira+Sans:wght@400;600;700&family=Lato:wght@400;700;900&family=Lora:ital,wght@0,500;0,700;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=Noto+Sans:wght@400;600;700&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Oswald:wght@500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,400;0,500;0,700;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -42,7 +45,7 @@
         padding: 0 !important;
         overflow: visible !important;
       }
-      .no-print {
+      .no-print, .bottom-nav {
         display: none !important;
       }
       .print-wrapper {
@@ -55,6 +58,7 @@
       .a4-scaler {
         transform: none !important;
         width: 100% !important;
+        height: auto !important;
         margin: 0 !important;
       }
       .a4-sheet {
@@ -70,22 +74,24 @@
       }
     }
 
-    /* Scaling Wrapper για Mobile Οθόνες */
-    .a4-scaler {
-      width: 210mm;
-      transform-origin: top center;
-      transition: transform 0.2s ease;
+    /* Scaling Wrapper για Mobile & Desktop Viewer */
+    .a4-scaler-viewport {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+      position: relative;
     }
 
-    @media screen and (max-width: 768px) {
-      .print-wrapper {
-        overflow-x: hidden !important;
-        padding: 10px 5px !important;
-      }
-      .a4-scaler {
-        transform: scale(calc((100vw - 20px) / 794));
-        margin-bottom: calc(-297mm * (1 - ((100vw - 20px) / 794)));
-      }
+    .a4-scaler {
+      width: 794px; /* A4 Width @ 96DPI */
+      height: 1123px; /* A4 Height @ 96DPI */
+      transform-origin: top center;
+      flex-shrink: 0;
+      transition: transform 0.15s ease-out;
     }
 
     .a4-sheet {
@@ -101,7 +107,6 @@
       box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
       font-family: var(--cv-font);
       color: var(--color-text);
-      transition: all 0.15s ease;
       margin-bottom: 25px;
       flex-shrink: 0;
     }
@@ -115,7 +120,6 @@
       background-color: var(--color-primary);
       border-radius: 50%;
       z-index: 1;
-      transition: background-color 0.2s ease;
     }
 
     .decor-top-right-group {
@@ -137,7 +141,6 @@
       border-radius: 50%;
       background-color: var(--color-circle-lg);
       opacity: 0.85;
-      transition: background-color 0.2s ease;
     }
 
     .decor-circle-md1 {
@@ -148,7 +151,6 @@
       height: 44px;
       border-radius: 50%;
       background-color: var(--color-primary);
-      transition: background-color 0.2s ease;
     }
 
     .decor-circle-md2 {
@@ -159,7 +161,6 @@
       height: 38px;
       border-radius: 50%;
       background-color: var(--color-primary);
-      transition: background-color 0.2s ease;
     }
 
     .decor-circle-sm1 {
@@ -170,7 +171,6 @@
       height: 20px;
       border-radius: 50%;
       background-color: var(--color-banner);
-      transition: background-color 0.2s ease;
     }
 
     .decor-bottom-right {
@@ -184,7 +184,6 @@
       opacity: 0.7;
       z-index: 1;
       pointer-events: none;
-      transition: background-color 0.2s ease;
     }
 
     .decor-bottom-circle {
@@ -197,7 +196,6 @@
       border-radius: 50%;
       z-index: 1;
       pointer-events: none;
-      transition: background-color 0.2s ease;
     }
 
     .section-pill-banner {
@@ -208,7 +206,6 @@
       align-items: center;
       margin-top: 6px;
       margin-bottom: 5px;
-      transition: background-color 0.2s ease;
     }
 
     .section-pill-icon {
@@ -270,7 +267,6 @@
       position: absolute;
       top: -3px;
       transform: translateX(-50%);
-      transition: left 0.1s ease;
     }
 
     /* Templates */
@@ -325,8 +321,8 @@
     }
 
     ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
     }
     ::-webkit-scrollbar-track {
       background: #0f172a;
@@ -335,44 +331,41 @@
       background: #334155;
       border-radius: 4px;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #475569;
-    }
   </style>
 </head>
-<body class="h-screen flex flex-col bg-slate-950 text-slate-100 overflow-x-hidden">
+<body class="h-screen flex flex-col bg-slate-950 text-slate-100 overflow-hidden pb-16 lg:pb-0">
 
   <!-- HEADER -->
-  <header class="no-print bg-slate-900 text-white px-4 py-3 border-b border-slate-800 flex flex-wrap justify-between items-center gap-3 z-50 flex-shrink-0 shadow-md">
+  <header class="no-print bg-slate-900 text-white px-4 py-3 border-b border-slate-800 flex justify-between items-center gap-3 z-50 flex-shrink-0 shadow-md">
     <div class="flex items-center gap-3">
       <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-700 to-red-500 flex items-center justify-center text-white font-black text-lg shadow-md">
         CV
       </div>
       <div>
         <h1 class="font-bold text-sm md:text-base text-slate-100 leading-tight">Canva Style Builder</h1>
-        <p class="text-[11px] text-slate-400">Πλήρως Επεξεργάσιμο CV • Dynamic Flow Studio • Create by DiGeL®</p>
+        <p class="text-[11px] text-slate-400">Διαδραστικός Δημιουργός Βιογραφικού • Create by DiGeL®</p>
       </div>
     </div>
 
-    <div class="flex items-center gap-2 md:gap-3 w-full sm:w-auto justify-end">
+    <div class="flex items-center gap-2">
       <label class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 px-3 py-2 rounded-lg border border-slate-700 transition flex items-center gap-1.5 shadow-sm">
         <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
         <span>Αλλαγή Φωτογραφίας</span>
         <input type="file" id="photoUploader" accept="image/*" class="hidden" onchange="uploadPhoto(event)">
       </label>
 
-      <button onclick="triggerPrint()" class="bg-rose-700 hover:bg-rose-600 text-white text-xs md:text-sm font-bold px-4 py-2 rounded-lg shadow-md transition flex items-center gap-1.5">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-        <span>Εκτύπωση / PDF</span>
+      <button onclick="downloadPDF()" class="hidden lg:flex bg-rose-700 hover:bg-rose-600 text-white text-xs md:text-sm font-bold px-4 py-2 rounded-lg shadow-md transition items-center gap-1.5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        <span>Download PDF</span>
       </button>
     </div>
   </header>
 
   <!-- MAIN WORKSPACE -->
-  <div class="flex-1 flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden min-h-0">
+  <div class="flex-1 flex flex-col lg:flex-row overflow-hidden min-h-0">
     
-    <!-- LEFT PANEL -->
-    <div class="w-full lg:w-1/2 bg-slate-900 text-slate-200 p-4 md:p-6 overflow-y-auto h-full no-print border-r border-slate-800 space-y-5">
+    <!-- LEFT PANEL: EDITORS -->
+    <div id="tabEditor" class="w-full lg:w-1/2 bg-slate-900 text-slate-200 p-4 md:p-6 overflow-y-auto h-full no-print border-r border-slate-800 space-y-5 block">
       
       <!-- TEMPLATES -->
       <div class="bg-slate-800/90 p-4 rounded-xl border border-rose-900/40 shadow-lg space-y-3">
@@ -587,27 +580,51 @@
 
     </div>
 
-    <!-- RIGHT PANEL: A4 PREVIEW (WITH MOBILE SCALER) -->
-    <div class="w-full lg:w-1/2 bg-slate-950 p-2 sm:p-4 lg:p-8 flex flex-col justify-start items-center overflow-y-auto print-wrapper">
-      <div class="a4-scaler flex flex-col items-center">
-        <div id="a4PagesContainer" class="flex flex-col items-center w-full"></div>
+    <!-- RIGHT PANEL: A4 PREVIEW (VIEWER WITH DYNAMIC AUTO-FIT) -->
+    <div id="tabViewer" class="w-full lg:w-1/2 bg-slate-950 p-2 sm:p-4 lg:p-6 flex flex-col justify-start items-center overflow-hidden h-full print-wrapper hidden lg:flex">
+      
+      <!-- Κουμπί Κατεβάσματος PDF ειδικά για Mobile Viewer -->
+      <div class="w-full max-w-[210mm] flex justify-end mb-2 lg:hidden flex-shrink-0">
+        <button onclick="downloadPDF()" class="w-full bg-rose-700 hover:bg-rose-600 text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <span>Λήψη CV σε PDF</span>
+        </button>
       </div>
+
+      <!-- VIEWPORT AUTO-SCALER CONTAINER -->
+      <div id="scalerViewport" class="a4-scaler-viewport">
+        <div id="a4Scaler" class="a4-scaler flex flex-col items-center">
+          <div id="a4PagesContainer" class="flex flex-col items-center w-full"></div>
+        </div>
+      </div>
+
     </div>
 
   </div>
+
+  <!-- BOTTOM NAVIGATION BAR (ΜΟΝΟ ΓΙΑ ΚΙΝΗΤΑ) -->
+  <nav class="bottom-nav lg:hidden fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 flex justify-around items-center h-16 z-50 shadow-2xl">
+    <button onclick="switchTab('edit')" id="btnTabEdit" class="flex flex-col items-center justify-center w-1/2 h-full text-rose-500 font-bold text-xs transition">
+      <span class="text-lg">✏️</span>
+      <span>Επεξεργασία</span>
+    </button>
+    <button onclick="switchTab('view')" id="btnTabViewer" class="flex flex-col items-center justify-center w-1/2 h-full text-slate-400 font-bold text-xs transition">
+      <span class="text-lg">👁️</span>
+      <span>Προεπισκόπηση</span>
+    </button>
+  </nav>
 
   <script>
     const state = {
       templateClass: '',
       name: "",
       address: "",
-      phone: "+30 6999999999",
-      email: "cv@gmail.com",
-      profile: "π.χ. Είμαι απόφοιτη/ος του τμήματος Διοίκησης Επιχειρήσεων ΠΕ της Σχολής Οικονομικών και Διοικητικών Επιστημών με ειδικότητα Διοίκησης Επιχειρήσεων (Marketing), τα κίνητρα μου πάνω στον τομέα της οικονομίας είναι να αναπτύσσω τις δεξιότητες μου καθημερινά, ώστε να μπορέσω να εξελιχθώ επαγγελματικά.",
+      phone: "",
+      email: "",
+      profile: "π.χ. Είμαι απόφοιτη/ος του τμήματος Διοίκησης Επιχειρήσεων ΠΕ της Σχολής Οικονομικών...",
       photoUrl: "https://lh3.googleusercontent.com/gg/ACRwjavK8l90duwc1RBGFOVIp_b1gy_QJcP-40CGYYTnozgvjEN4NUNgCMDGAFKgVUugM62h7E174mWEMKLwXLqpKfw5A-mXdYYW9QIX2Ahx-AeFnyWjgonroiXVIxtmvbvBoWsPhe1V5zadx9ymnaLhRRCWR4Rl7HRjLCw2Hvu0Vfapj2KbhWz2vI7i-o_K_RcUZ4M7BPDD6ocyfO1GihYOHFzCKMVAkf75tpPwywjt8ciz8WDcH0kFiS8uTG4tV6JVW0oWPaT6uFshZ5BUyEV3MIgFdwUnQ34gMOM=s0",
 
       skills: [
-        { name: "Διοίκησης Επιχειρήσεων", pos: 100 },
         { name: "Δημιουργικό πνεύμα", pos: 100 },
         { name: "Οργανωτική", pos: 100 },
         { name: "Αξιόπιστη", pos: 100 },
@@ -638,8 +655,63 @@
       ]
     };
 
-    function triggerPrint() {
-      window.print();
+    // DYNAMIC AUTO-FIT SCALING FUNCTION
+    function fitA4ToScreen() {
+      const viewport = document.getElementById('scalerViewport');
+      const scaler = document.getElementById('a4Scaler');
+      if (!viewport || !scaler) return;
+
+      const vWidth = viewport.clientWidth;
+      const vHeight = viewport.clientHeight;
+
+      if (vWidth === 0 || vHeight === 0) return;
+
+      const a4W = 794;  // Base A4 Width @ 96DPI
+      const a4H = 1123; // Base A4 Height @ 96DPI
+
+      // Calculate scale ratio to fit BOTH width and height completely
+      const scaleX = (vWidth - 16) / a4W;
+      const scaleY = (vHeight - 16) / a4H;
+      const scale = Math.min(scaleX, scaleY);
+
+      scaler.style.transform = `scale(${scale})`;
+    }
+
+    // TAB SWITCHER FOR MOBILE
+    function switchTab(tab) {
+      const editor = document.getElementById('tabEditor');
+      const viewer = document.getElementById('tabViewer');
+      const btnEdit = document.getElementById('btnTabEdit');
+      const btnView = document.getElementById('btnTabViewer');
+
+      if (tab === 'edit') {
+        editor.classList.remove('hidden');
+        viewer.classList.add('hidden');
+        btnEdit.className = "flex flex-col items-center justify-center w-1/2 h-full text-rose-500 font-bold text-xs transition";
+        btnView.className = "flex flex-col items-center justify-center w-1/2 h-full text-slate-400 font-bold text-xs transition";
+      } else {
+        editor.classList.add('hidden');
+        viewer.classList.remove('hidden');
+        viewer.classList.add('flex');
+        btnEdit.className = "flex flex-col items-center justify-center w-1/2 h-full text-slate-400 font-bold text-xs transition";
+        btnView.className = "flex flex-col items-center justify-center w-1/2 h-full text-rose-500 font-bold text-xs transition";
+        updateResume();
+        setTimeout(fitA4ToScreen, 50);
+      }
+    }
+
+    // AUTOMATIC PDF DOWNLOAD (HTML2PDF)
+    function downloadPDF() {
+      const element = document.getElementById('a4PagesContainer');
+      const opt = {
+        margin:       0,
+        filename:     `${state.name || 'CV'}_Resume.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+      
+      html2pdf().set(opt).from(element).save();
     }
 
     function applyTemplate(cls) {
@@ -1186,13 +1258,18 @@
           }
         }
       }
+
+      setTimeout(fitA4ToScreen, 20);
     }
 
-    // INIT
+    // INIT & RESIZE LISTENER
     window.onload = function() {
       initInputs();
       updateResume();
+      fitA4ToScreen();
     };
+
+    window.addEventListener('resize', fitA4ToScreen);
   </script>
 </body>
 </html>
