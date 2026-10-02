@@ -718,33 +718,25 @@
           pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
         }
 
-        // Μετατροπή σε Base64
-        const pdfBase64 = pdf.output('datauristring').split(',')[1];
+        // Δημιουργία Blob και File αντικειμένου
+        const pdfBlob = pdf.output('blob');
+        const file = new File([pdfBlob], 'CV_Resume.pdf', { type: 'application/pdf' });
 
-        // Έλεγχος αν τρέχει ως Capacitor Native App
-        if (window.Capacitor && window.Capacitor.isNativePlatform()) {
-          const { Filesystem, Directory } = window.Capacitor.Plugins;
-          const { Share } = window.Capacitor.Plugins;
-
-          // 1. Προσωρινή αποθήκευση στη μνήμη της εφαρμογής
-          const fileName = 'CV_Resume.pdf';
-          const savedFile = await Filesystem.writeFile({
-            path: fileName,
-            data: pdfBase64,
-            directory: Directory.Cache
+        // 1. Δοκιμή με το Web Share API (Ανοίγει το native μενού του Android/iOS)
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: 'CV Resume',
+            text: 'Το βιογραφικό μου σημείωμα.'
           });
-
-          // 2. Άνοιγμα του Native Android Share Sheet
-          await Share.share({
-            title: 'Βιογραφικό Σημείωμα',
-            text: 'Αποθήκευση ή Κοινοποίηση του CV',
-            url: savedFile.uri,
-            dialogTitle: 'Επιλέξτε πού θα αποθηκευτεί το PDF'
-          });
-
         } else {
-          // Fallback για Web Browser
-          pdf.save('CV_Resume.pdf');
+          // 2. Fallback: Δημιουργία συνδέσμου λήψης για Browsers / Desktop
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(pdfBlob);
+          link.download = 'CV_Resume.pdf';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         }
 
       } catch (err) {
