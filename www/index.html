@@ -10,6 +10,10 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- PDF GENERATION LIBRARIES FOR ANDROID & MOBILE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400&family=Comfortaa:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400&family=Fira+Code:wght@400;600&family=Fira+Sans:wght@400;600;700&family=Lato:wght@400;700;900&family=Lora:ital,wght@0,500;0,700;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=Noto+Sans:wght@400;600;700&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Oswald:wght@500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,400;0,500;0,700;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -353,7 +357,7 @@
 
       <button onclick="downloadPDF()" class="hidden lg:flex bg-rose-700 hover:bg-rose-600 text-white text-xs md:text-sm font-bold px-4 py-2 rounded-lg shadow-md transition items-center gap-1.5">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-        <span>Download PDF</span>
+        <span id="btnTextDesktop">Download PDF</span>
       </button>
     </div>
   </header>
@@ -584,7 +588,7 @@
       <div class="no-print w-full max-w-[210mm] flex justify-end mb-2 lg:hidden flex-shrink-0">
         <button onclick="downloadPDF()" class="w-full bg-rose-700 hover:bg-rose-600 text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-          <span>Λήψη CV σε PDF</span>
+          <span id="btnTextMobile">Λήψη CV σε PDF</span>
         </button>
       </div>
 
@@ -688,8 +692,60 @@
       }
     }
 
-    function downloadPDF() {
-      window.print();
+    async function downloadPDF() {
+      const btnMob = document.getElementById('btnTextMobile');
+      const btnDesk = document.getElementById('btnTextDesktop');
+      
+      if (btnMob) btnMob.innerText = 'Δημιουργία PDF...';
+      if (btnDesk) btnDesk.innerText = 'Δημιουργία PDF...';
+
+      try {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pages = document.querySelectorAll('.a4-sheet');
+
+        for (let i = 0; i < pages.length; i++) {
+          const page = pages[i];
+          const canvas = await html2canvas(page, {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            backgroundColor: '#ffffff'
+          });
+
+          const imgData = canvas.toDataURL('image/jpeg', 0.98);
+          if (i > 0) pdf.addPage();
+          pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+        }
+
+        // Μετατροπή PDF σε Base64
+        const pdfBase64 = pdf.output('datauristring').split(',')[1];
+
+        // Έλεγχος αν τρέχει ως Native Capacitor App στο Android
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Filesystem) {
+          const { Filesystem } = window.Capacitor.Plugins;
+          const { Directory } = window.Capacitor.Plugins.Filesystem;
+
+          await Filesystem.writeFile({
+            path: 'CV_Resume.pdf',
+            data: pdfBase64,
+            directory: Directory.Documents, // Αποθήκευση στα Έγγραφα/Downloads
+            recursive: true
+          });
+
+          alert('Το CV αποθηκεύτηκε επιτυχώς στα έγγραφά σας!');
+        } else {
+          // Fallback για Web Browser
+          pdf.save('CV_Resume.pdf');
+        }
+
+      } catch (err) {
+        console.error('PDF Generation Error:', err);
+        alert('Σφάλμα κατά την αποθήκευση: ' + err.message);
+      } finally {
+        if (btnMob) btnMob.innerText = 'Λήψη CV σε PDF';
+        if (btnDesk) btnDesk.innerText = 'Download PDF';
+      }
     }
 
     function applyTemplate(cls) {
