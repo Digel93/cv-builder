@@ -692,6 +692,7 @@
       }
     }
 
+    // ΑΛΕΞΙΣΦΑΙΡΗ ΜΕΘΟΔΟΣ (Λειτουργεί Native, σε Browser & σε Web Share)
     async function downloadPDF() {
       const btnMob = document.getElementById('btnTextMobile');
       const btnDesk = document.getElementById('btnTextDesktop');
@@ -718,34 +719,58 @@
           pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
         }
 
-        // Μετατροπή σε Base64
-        const pdfBase64 = pdf.output('datauristring').split(',')[1];
+        const fileName = 'CV_Resume.pdf';
 
-        // Έλεγχος αν τρέχει ως Capacitor Native App
+        // ΜΕΘΟΔΟΣ 1: Native Android App (Capacitor)
         if (window.Capacitor && window.Capacitor.isNativePlatform()) {
-          const { Filesystem, Directory } = window.Capacitor.Plugins;
-          const { Share } = window.Capacitor.Plugins;
+          const pdfBase64 = pdf.output('datauristring').split(',')[1];
+          const Filesystem = window.Capacitor.Plugins.Filesystem;
+          const Share = window.Capacitor.Plugins.Share;
 
-          // 1. Προσωρινή αποθήκευση στη μνήμη της εφαρμογής
-          const fileName = 'CV_Resume.pdf';
-          const savedFile = await Filesystem.writeFile({
-            path: fileName,
-            data: pdfBase64,
-            directory: Directory.Cache
-          });
+          if (Filesystem && Share) {
+            // Χρησιμοποιούμε το string 'CACHE' αντί για Directory.Cache
+            const savedFile = await Filesystem.writeFile({
+              path: fileName,
+              data: pdfBase64,
+              directory: 'CACHE'
+            });
 
-          // 2. Άνοιγμα του Native Android Share Sheet
-          await Share.share({
-            title: 'Βιογραφικό Σημείωμα',
-            text: 'Αποθήκευση ή Κοινοποίηση του CV',
-            url: savedFile.uri,
-            dialogTitle: 'Επιλέξτε πού θα αποθηκευτεί το PDF'
-          });
-
-        } else {
-          // Fallback για Web Browser
-          pdf.save('CV_Resume.pdf');
+            await Share.share({
+              title: 'Βιογραφικό Σημείωμα',
+              text: 'Αποθήκευση ή Κοινοποίηση του CV',
+              url: savedFile.uri,
+              dialogTitle: 'Επιλέξτε πού θα αποθηκευτεί το PDF'
+            });
+            return; 
+          }
         }
+
+        // ΜΕΘΟΔΟΣ 2 & 3: Standard Web Fallback (Όπως το Kickresume)
+        const pdfBlob = pdf.output('blob');
+        const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
+        
+        // Δοκιμή με το σύγχρονο Web Share API (Mobile Safari/Chrome)
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+                files: [file],
+                title: 'Βιογραφικό',
+            });
+            return;
+        }
+
+        // Κλασική λήψη (Δημιουργία Blob και αόρατου Link - Η Μέθοδος του Kickresume)
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(pdfBlob);
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        
+        // Καθαρισμός μνήμης για να μην έχουμε διαρροές (Memory leaks)
+        setTimeout(() => {
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+        }, 150);
 
       } catch (err) {
         console.error('PDF Generation Error:', err);
