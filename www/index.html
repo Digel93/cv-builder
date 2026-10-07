@@ -5,14 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>CV Builder Studio</title>
   
-  <!-- High Resolution App Icon / Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><defs><linearGradient id='bgGrad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%230f172a'/><stop offset='100%' stop-color='%231e293b'/></linearGradient><linearGradient id='capsuleGrad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23f43f5e'/><stop offset='50%' stop-color='%23e11d48'/><stop offset='100%' stop-color='%23881337'/></linearGradient><filter id='softShadow' x='-20%' y='-20%' width='140%' height='140%'><feDropShadow dx='0' dy='12' stdDeviation='16' flood-color='%23000000' flood-opacity='0.45'/></filter></defs><rect width='512' height='512' rx='115' fill='url(%23bgGrad)'/><rect x='106' y='56' width='300' height='400' rx='150' fill='url(%23capsuleGrad)' filter='url(%23softShadow)'/><line x1='186' y1='130' x2='326' y2='130' stroke='%23ffffff' stroke-width='4' stroke-linecap='round' stroke-opacity='0.35'/><line x1='216' y1='146' x2='296' y2='146' stroke='%23ffffff' stroke-width='4' stroke-linecap='round' stroke-opacity='0.25'/><text x='256' y='300' font-family='Montserrat, sans-serif' font-weight='900' font-size='175' fill='%23ffffff' letter-spacing='4' text-anchor='middle'>CV</text><rect x='186' y='360' width='140' height='6' rx='3' fill='%23ffffff' fill-opacity='0.8'/></svg>">
 
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- PDF GENERATION LIBRARIES FOR ANDROID & MOBILE -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,8 +23,8 @@
       --color-circle-lg: #dec8b8;   
       --color-circle-bg: #fdfbf7;   
       
-      --font-scale-base: 8.5pt;
-      --font-scale-heading: 10.5pt;
+      --font-scale-base: 9pt;
+      --font-scale-heading: 11pt;
       --font-scale-title: 22pt;
     }
 
@@ -44,14 +39,13 @@
       margin: 0;
     }
 
-    /* PRINT STYLING - Αποκλεισμός κουμπιών και εξωτερικών στοιχείων */
+    /* ΒΕΛΤΙΩΜΕΝΟ PRINT STYLING ΓΙΑ ΚΑΘΑΡΟ ΚΕΙΜΕΝΟ ΧΩΡΙΣ ΕΠΙΚΑΛΥΨΕΙΣ */
     @media print {
       body {
         background: #ffffff !important;
         color: #000000 !important;
         padding: 0 !important;
         margin: 0 !important;
-        overflow: visible !important;
       }
       .no-print, .bottom-nav, header, #tabEditor {
         display: none !important;
@@ -70,7 +64,6 @@
       .a4-scaler {
         transform: none !important;
         width: 100% !important;
-        height: auto !important;
         margin: 0 !important;
       }
       .a4-sheet {
@@ -83,10 +76,10 @@
         page-break-inside: avoid;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+        line-height: 1.4 !important;
       }
     }
 
-    /* Scaler Viewport - Επιτρέπει scroll για εμφάνιση 2ης σελίδας */
     .a4-scaler-viewport {
       width: 100%;
       height: 100%;
@@ -120,6 +113,7 @@
       box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
       font-family: var(--cv-font);
       color: var(--color-text);
+      line-height: 1.4;
       margin-bottom: 25px;
       flex-shrink: 0;
     }
@@ -214,11 +208,11 @@
     .section-pill-banner {
       background-color: var(--color-banner);
       border-radius: 12px;
-      padding: 3px 10px;
+      padding: 4px 10px;
       display: flex;
       align-items: center;
-      margin-top: 6px;
-      margin-bottom: 5px;
+      margin-top: 8px;
+      margin-bottom: 6px;
     }
 
     .section-pill-icon {
@@ -247,7 +241,7 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
       gap: 4px;
     }
 
@@ -256,9 +250,8 @@
       font-weight: 600;
       color: var(--color-text);
       flex: 1 1 55%;
-      white-space: normal;
       word-break: break-word;
-      line-height: 1.25;
+      line-height: 1.3;
     }
 
     .skill-slider-track {
@@ -461,11 +454,11 @@
           <div class="md:col-span-2 pt-2 border-t border-slate-700/80 grid grid-cols-1 md:grid-cols-3 gap-3">
             <div>
               <label class="block font-semibold text-slate-300 mb-1">Μέγεθος Κειμένου</label>
-              <input type="range" min="7" max="11" step="0.5" value="8.5" oninput="changeSize('--font-scale-base', this.value + 'pt')" class="w-full accent-rose-500">
+              <input type="range" min="7" max="11" step="0.5" value="9" oninput="changeSize('--font-scale-base', this.value + 'pt')" class="w-full accent-rose-500">
             </div>
             <div>
               <label class="block font-semibold text-slate-300 mb-1">Μέγεθος Επικεφαλίδων</label>
-              <input type="range" min="8.5" max="14" step="0.5" value="10.5" oninput="changeSize('--font-scale-heading', this.value + 'pt')" class="w-full accent-rose-500">
+              <input type="range" min="8.5" max="14" step="0.5" value="11" oninput="changeSize('--font-scale-heading', this.value + 'pt')" class="w-full accent-rose-500">
             </div>
             <div>
               <label class="block font-semibold text-slate-300 mb-1">Μέγεθος Ονόματος</label>
@@ -692,94 +685,13 @@
       }
     }
 
-    // ΑΛΕΞΙΣΦΑΙΡΗ ΜΕΘΟΔΟΣ (Λειτουργεί Native, σε Browser & σε Web Share)
-    async function downloadPDF() {
-      const btnMob = document.getElementById('btnTextMobile');
-      const btnDesk = document.getElementById('btnTextDesktop');
-      
-      if (btnMob) btnMob.innerText = 'Δημιουργία PDF...';
-      if (btnDesk) btnDesk.innerText = 'Δημιουργία PDF...';
-
+    // ΑΠΕΥΘΕΙΑΣ ΕΚΤΥΠΩΣΗ ΣΕ PDF ΧΩΡΙΣ ΘΟΛΕΣ ΕΙΚΟΝΕΣ Ή ΜΟΥΤΖΟΥΡΕΣ
+    function downloadPDF() {
       try {
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pages = document.querySelectorAll('.a4-sheet');
-
-        for (let i = 0; i < pages.length; i++) {
-          const page = pages[i];
-          const canvas = await html2canvas(page, {
-            scale: 2,
-            useCORS: true,
-            logging: false,
-            backgroundColor: '#ffffff'
-          });
-
-          const imgData = canvas.toDataURL('image/jpeg', 0.98);
-          if (i > 0) pdf.addPage();
-          pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
-        }
-
-        const fileName = 'CV_Resume.pdf';
-
-        // ΜΕΘΟΔΟΣ 1: Native Android App (Capacitor)
-        if (window.Capacitor && window.Capacitor.isNativePlatform()) {
-          const pdfBase64 = pdf.output('datauristring').split(',')[1];
-          const Filesystem = window.Capacitor.Plugins.Filesystem;
-          const Share = window.Capacitor.Plugins.Share;
-
-          if (Filesystem && Share) {
-            // Χρησιμοποιούμε το string 'CACHE' αντί για Directory.Cache
-            const savedFile = await Filesystem.writeFile({
-              path: fileName,
-              data: pdfBase64,
-              directory: 'CACHE'
-            });
-
-            await Share.share({
-              title: 'Βιογραφικό Σημείωμα',
-              text: 'Αποθήκευση ή Κοινοποίηση του CV',
-              url: savedFile.uri,
-              dialogTitle: 'Επιλέξτε πού θα αποθηκευτεί το PDF'
-            });
-            return; 
-          }
-        }
-
-        // ΜΕΘΟΔΟΣ 2 & 3: Standard Web Fallback (Όπως το Kickresume)
-        const pdfBlob = pdf.output('blob');
-        const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
-        
-        // Δοκιμή με το σύγχρονο Web Share API (Mobile Safari/Chrome)
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({
-                files: [file],
-                title: 'Βιογραφικό',
-            });
-            return;
-        }
-
-        // Κλασική λήψη (Δημιουργία Blob και αόρατου Link - Η Μέθοδος του Kickresume)
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(pdfBlob);
-        link.href = url;
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        
-        // Καθαρισμός μνήμης για να μην έχουμε διαρροές (Memory leaks)
-        setTimeout(() => {
-          document.body.removeChild(link);
-          window.URL.revokeObjectURL(url);
-        }, 150);
-
+        window.print();
       } catch (err) {
-        console.error('PDF Generation Error:', err);
-        if (err.name !== 'AbortError' && !err.message.includes('Canceled')) {
-          alert('Σφάλμα κατά τη δημιουργία του PDF: ' + err.message);
-        }
-      } finally {
-        if (btnMob) btnMob.innerText = 'Λήψη CV σε PDF';
-        if (btnDesk) btnDesk.innerText = 'Download PDF';
+        console.error('Print Error:', err);
+        alert('Σφάλμα εκτύπωσης: ' + err.message);
       }
     }
 
@@ -823,8 +735,8 @@
       changeColor('--color-circle-lg', '#dec8b8');
       document.getElementById('colorCircle').value = '#dec8b8';
 
-      changeSize('--font-scale-base', '8.5pt');
-      changeSize('--font-scale-heading', '10.5pt');
+      changeSize('--font-scale-base', '9pt');
+      changeSize('--font-scale-heading', '11pt');
       changeSize('--font-scale-title', '22pt');
     }
 
@@ -1065,12 +977,12 @@
 
     function generateHeaderHTML() {
       return `
-        <div class="flex justify-between items-start mb-3 pr-8">
+        <div class="flex justify-between items-start mb-4 pr-8">
           <div class="flex-1 pr-3">
             <h1 class="font-black tracking-tight uppercase leading-tight" style="font-size: var(--font-scale-title); color: var(--color-heading);">
               ${state.name}
             </h1>
-            <div class="mt-1.5 space-y-0.5 font-medium leading-snug" style="font-size: var(--font-scale-base);">
+            <div class="mt-2 space-y-1 font-medium" style="font-size: var(--font-scale-base);">
               <div><strong>Διεύθυνση:</strong> <span>${state.address}</span></div>
               <div><strong>Κινητό:</strong> <span>${state.phone}</span></div>
               <div><strong>Email:</strong> <span>${state.email}</span></div>
@@ -1099,7 +1011,7 @@
     }
 
     function generateProfileContent() {
-      return `<p class="leading-relaxed text-justify font-medium" style="font-size: var(--font-scale-base);">${state.profile}</p>`;
+      return `<p class="text-justify font-medium" style="font-size: var(--font-scale-base); line-height: 1.4;">${state.profile}</p>`;
     }
 
     function generateExperienceContent(items) {
@@ -1107,10 +1019,10 @@
       return `<div class="space-y-2">
         ${items.map(exp => `
           <div style="font-size: var(--font-scale-base);">
-            <div class="font-bold uppercase tracking-wide opacity-60" style="font-size: calc(var(--font-scale-base) * 0.88);">${exp.year}${exp.location ? '&nbsp;&nbsp;&nbsp;&nbsp; ' + exp.location : ''}</div>
-            <div class="font-extrabold text-black" style="font-size: calc(var(--font-scale-base) * 1.05);">${exp.title}</div>
-            <div class="font-extrabold" style="font-size: var(--font-scale-base);">${exp.subtitle}</div>
-            <div class="opacity-80" style="font-size: calc(var(--font-scale-base) * 0.95);">${exp.desc}</div>
+            <div class="font-bold uppercase tracking-wide opacity-60 mb-0.5" style="font-size: calc(var(--font-scale-base) * 0.85);">${exp.year}${exp.location ? '&nbsp;&nbsp;&nbsp;&nbsp; ' + exp.location : ''}</div>
+            <div class="font-extrabold text-black" style="font-size: calc(var(--font-scale-base) * 1.05); line-height: 1.3;">${exp.title}</div>
+            <div class="font-extrabold" style="font-size: var(--font-scale-base); line-height: 1.3;">${exp.subtitle}</div>
+            <div class="opacity-80" style="font-size: calc(var(--font-scale-base) * 0.95); line-height: 1.3;">${exp.desc}</div>
           </div>
         `).join('')}
       </div>`;
@@ -1121,10 +1033,10 @@
       return `<div class="space-y-2">
         ${items.map(edu => `
           <div style="font-size: var(--font-scale-base);">
-            <div class="font-bold uppercase tracking-wide opacity-60" style="font-size: calc(var(--font-scale-base) * 0.88);">${edu.year}${edu.location ? '&nbsp;&nbsp;&nbsp;&nbsp; ' + edu.location : ''}</div>
-            <div class="font-extrabold text-black" style="font-size: calc(var(--font-scale-base) * 1.05);">${edu.title}</div>
-            <div class="font-extrabold" style="font-size: var(--font-scale-base);">${edu.subtitle}</div>
-            <div class="opacity-80 whitespace-pre-line" style="font-size: calc(var(--font-scale-base) * 0.9);">${edu.desc}</div>
+            <div class="font-bold uppercase tracking-wide opacity-60 mb-0.5" style="font-size: calc(var(--font-scale-base) * 0.85);">${edu.year}${edu.location ? '&nbsp;&nbsp;&nbsp;&nbsp; ' + edu.location : ''}</div>
+            <div class="font-extrabold text-black" style="font-size: calc(var(--font-scale-base) * 1.05); line-height: 1.3;">${edu.title}</div>
+            <div class="font-extrabold" style="font-size: var(--font-scale-base); line-height: 1.3;">${edu.subtitle}</div>
+            <div class="opacity-80 whitespace-pre-line" style="font-size: calc(var(--font-scale-base) * 0.9); line-height: 1.3;">${edu.desc}</div>
           </div>
         `).join('')}
       </div>`;
@@ -1135,9 +1047,9 @@
       return `<div class="space-y-1.5">
         ${items.map(sem => `
           <div style="font-size: var(--font-scale-base);">
-            <div class="font-bold opacity-60" style="font-size: calc(var(--font-scale-base) * 0.88);">${sem.year}</div>
-            <div class="font-extrabold text-black" style="font-size: calc(var(--font-scale-base) * 1.02);">${sem.title}</div>
-            <div class="opacity-70" style="font-size: calc(var(--font-scale-base) * 0.9);">${sem.sub}</div>
+            <div class="font-bold opacity-60 mb-0.5" style="font-size: calc(var(--font-scale-base) * 0.85);">${sem.year}</div>
+            <div class="font-extrabold text-black" style="font-size: calc(var(--font-scale-base) * 1.02); line-height: 1.3;">${sem.title}</div>
+            <div class="opacity-70" style="font-size: calc(var(--font-scale-base) * 0.9); line-height: 1.3;">${sem.sub}</div>
           </div>
         `).join('')}
       </div>`;
@@ -1147,10 +1059,10 @@
       let html = '';
       if (items && items.length > 0) {
         html += `
-          <div class="font-extrabold uppercase mb-1 border-b pb-0.5 border-slate-200" style="font-size: var(--font-scale-base); color: var(--color-heading);">
+          <div class="font-extrabold uppercase mb-1.5 border-b pb-0.5 border-slate-300" style="font-size: var(--font-scale-base); color: var(--color-heading);">
             - ΔΙΟΙΚΗΣΗΣ ΕΠΙΧΕΙΡΗΣΕΩΝ ΠΕ
           </div>
-          <div class="space-y-1.5 mb-2">
+          <div class="space-y-2 mb-3">
             ${items.map(sk => `
               <div class="skill-slider-row">
                 <span class="skill-slider-label">${sk.name}</span>
@@ -1165,10 +1077,10 @@
 
       if (state.licenses && state.licenses.length > 0) {
         html += `
-          <div class="font-extrabold uppercase mt-2 mb-1 border-b pb-0.5 border-slate-200" style="font-size: var(--font-scale-base); color: var(--color-heading);">
+          <div class="font-extrabold uppercase mt-2 mb-1.5 border-b pb-0.5 border-slate-300" style="font-size: var(--font-scale-base); color: var(--color-heading);">
             - ΑΔΕΙΕΣ ΟΔΗΓΗΣΗΣ
           </div>
-          <div class="space-y-1.5">
+          <div class="space-y-2">
             ${state.licenses.map(lic => `
               <div class="skill-slider-row">
                 <span class="skill-slider-label">${lic.name}</span>
@@ -1186,10 +1098,10 @@
     function generateLanguagesContent(items) {
       if (!items || items.length === 0) return '';
       return `
-        <div class="font-extrabold uppercase mb-1 border-b pb-0.5 border-slate-200" style="font-size: var(--font-scale-base); color: var(--color-heading);">
+        <div class="font-extrabold uppercase mb-1.5 border-b pb-0.5 border-slate-300" style="font-size: var(--font-scale-base); color: var(--color-heading);">
           - ΞΕΝΕΣ ΓΛΩΣΣΕΣ
         </div>
-        <div class="space-y-1.5">
+        <div class="space-y-2">
           ${items.map(lang => `
             <div class="skill-slider-row">
               <span class="skill-slider-label">${lang.name}</span>
@@ -1220,7 +1132,7 @@
 
         <div class="relative z-10 flex flex-col h-full justify-between">
           <div class="page-content-wrapper"></div>
-          <div class="border-t border-slate-200/80 pt-1.5 flex justify-between font-medium opacity-70" style="font-size: calc(var(--font-scale-base) * 0.85);">
+          <div class="border-t border-slate-300/80 pt-2 flex justify-between font-medium opacity-70" style="font-size: calc(var(--font-scale-base) * 0.85);">
             <span>${state.name} — Βιογραφικό Σημείωμα</span>
             <span class="page-number-label">Σελίδα ${pageNum}</span>
           </div>
@@ -1249,10 +1161,10 @@
       grid1.className = 'grid grid-cols-2 gap-4 mt-2';
       
       let leftCol1 = document.createElement('div');
-      leftCol1.className = 'space-y-2';
+      leftCol1.className = 'space-y-3';
       
       let rightCol1 = document.createElement('div');
-      rightCol1.className = 'space-y-2';
+      rightCol1.className = 'space-y-3';
 
       grid1.appendChild(leftCol1);
       grid1.appendChild(rightCol1);
@@ -1271,12 +1183,10 @@
       const maxH = page1.clientHeight - 40;
 
       if (contentWrapper1.scrollHeight > maxH) {
-        
         leftCol1.innerHTML = blockProfile + blockExp;
         rightCol1.innerHTML = blockEdu + blockSeminars + blockSkills + blockLanguages;
 
         if (contentWrapper1.scrollHeight > maxH) {
-
           rightCol1.innerHTML = blockEdu + blockSeminars + blockSkills;
 
           let page2 = createA4PageElement(2);
@@ -1287,35 +1197,16 @@
           grid2.className = 'grid grid-cols-2 gap-4 mt-2';
           
           let leftCol2 = document.createElement('div');
-          leftCol2.className = 'space-y-2';
+          leftCol2.className = 'space-y-3';
           
           let rightCol2 = document.createElement('div');
-          rightCol2.className = 'space-y-2';
+          rightCol2.className = 'space-y-3';
 
           grid2.appendChild(leftCol2);
           grid2.appendChild(rightCol2);
           contentWrapper2.appendChild(grid2);
 
           leftCol2.innerHTML = blockLanguages;
-
-          if (contentWrapper1.scrollHeight > maxH) {
-            rightCol1.innerHTML = blockEdu + blockSeminars;
-            leftCol2.innerHTML = blockSkills + blockLanguages;
-          }
-
-          if (contentWrapper1.scrollHeight > maxH) {
-            rightCol1.innerHTML = blockEdu;
-            leftCol2.innerHTML = blockSeminars + blockSkills;
-            rightCol2.innerHTML = blockLanguages;
-          }
-
-          if (contentWrapper1.scrollHeight > maxH) {
-            leftCol1.innerHTML = blockProfile + blockExp;
-            rightCol1.innerHTML = '';
-            
-            leftCol2.innerHTML = blockEdu + blockSeminars;
-            rightCol2.innerHTML = blockSkills + blockLanguages;
-          }
         }
       }
 
