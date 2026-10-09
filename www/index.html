@@ -39,43 +39,55 @@
       margin: 0;
     }
 
+    /* PRINT STYLING - ΠΛΗΡΗΣ ΕΜΦΑΝΙΣΗ ΟΛΩΝ ΤΩΝ ΣΕΛΙΔΩΝ */
     @media print {
-      body {
+      html, body, #mainAppScreen, #mainAppScreen *, .print-wrapper, #tabViewer, .a4-scaler-viewport, .a4-scaler, #a4PagesContainer {
+        overflow: visible !important;
+      }
+      html, body {
         background: #ffffff !important;
         color: #000000 !important;
         padding: 0 !important;
         margin: 0 !important;
+        height: auto !important;
       }
       .no-print, .bottom-nav, header, #tabEditor, #welcomeScreen, #templateScreen {
         display: none !important;
       }
-      .print-wrapper, #tabViewer, #mainAppScreen {
+      #mainAppScreen, .print-wrapper, #tabViewer, .a4-scaler-viewport, .a4-scaler, #a4PagesContainer {
         display: block !important;
+        position: static !important;
         padding: 0 !important;
         margin: 0 !important;
         width: 100% !important;
-        background: transparent !important;
-      }
-      .a4-scaler-viewport {
-        overflow: visible !important;
         height: auto !important;
-      }
-      .a4-scaler {
+        max-height: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
         transform: none !important;
-        width: 100% !important;
-        margin: 0 !important;
       }
       .a4-sheet {
+        display: block !important;
+        position: relative !important;
         box-shadow: none !important;
         border: none !important;
         width: 210mm !important;
         height: 297mm !important;
+        max-height: 297mm !important;
+        min-height: 297mm !important;
         margin: 0 auto !important;
-        page-break-after: always;
-        page-break-inside: avoid;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
-        line-height: 1.4 !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+      }
+      .a4-sheet:last-child {
+        page-break-after: auto !important;
+        break-after: auto !important;
       }
     }
 
@@ -366,9 +378,7 @@
 </head>
 <body class="h-screen flex flex-col bg-slate-950 text-slate-100 overflow-hidden">
 
-  <!-- ========================================== -->
-  <!-- STEP 1: WELCOME / MENU PAGE                -->
-  <!-- ========================================== -->
+  <!-- STEP 1: WELCOME SCREEN -->
   <div id="welcomeScreen" class="fixed inset-0 z-50 bg-slate-950 flex flex-col justify-center items-center p-6 text-center overflow-y-auto">
     <div class="absolute w-96 h-96 bg-rose-600/10 rounded-full blur-3xl pointer-events-none -top-10 -left-10"></div>
     <div class="absolute w-96 h-96 bg-rose-900/15 rounded-full blur-3xl pointer-events-none -bottom-10 -right-10"></div>
@@ -393,16 +403,13 @@
       </button>
 
       <p class="text-xs text-slate-500 font-medium pt-8">
-        Create by DiGeL® • Premium PDF Export Engine
+        Create by DiGeL® • Premium Native PDF Engine
       </p>
     </div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- STEP 2: TEMPLATES SELECTION GALLERY        -->
-  <!-- ========================================== -->
+  <!-- STEP 2: TEMPLATES GALLERY -->
   <div id="templateScreen" class="fixed inset-0 z-50 bg-slate-950 flex flex-col p-4 md:p-8 overflow-y-auto hidden">
-    
     <div class="max-w-7xl w-full mx-auto flex flex-col sm:flex-row justify-between items-center pb-5 border-b border-slate-800/80 gap-4 flex-shrink-0">
       <div>
         <h2 class="text-2xl sm:text-3xl font-black text-slate-100 flex items-center gap-2">
@@ -418,10 +425,7 @@
       </button>
     </div>
 
-    <!-- 7 Visual Templates Grid -->
     <div class="max-w-7xl w-full mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-6 flex-1">
-      
-      <!-- Card 1: Canva Burgundy -->
       <div id="tplCard_burgundy" onclick="selectTemplateCard('tpl-burgundy', 'tplCard_burgundy')" class="tpl-card-selected bg-slate-900/90 border-2 border-slate-800 rounded-2xl p-4 cursor-pointer transition-all duration-300 hover:border-rose-500/60 flex flex-col justify-between group relative">
         <div class="space-y-3">
           <div class="mini-cv-preview w-full bg-[#fdfbf7] rounded-lg p-2.5 relative overflow-hidden flex flex-col justify-between text-[6px] text-slate-800">
@@ -459,7 +463,6 @@
         </div>
       </div>
 
-      <!-- Card 2: Teal Angular -->
       <div id="tplCard_modern_slate" onclick="selectTemplateCard('tpl-modern-slate', 'tplCard_modern_slate')" class="bg-slate-900/90 border-2 border-slate-800 rounded-2xl p-4 cursor-pointer transition-all duration-300 hover:border-rose-500/60 flex flex-col justify-between group relative">
         <div class="space-y-3">
           <div class="mini-cv-preview w-full bg-white rounded-lg relative overflow-hidden flex flex-col justify-between text-[6px] text-slate-800 p-2.5">
@@ -495,7 +498,6 @@
         </div>
       </div>
 
-      <!-- Card 3: Minimal Classic -->
       <div id="tplCard_classic_minimal" onclick="selectTemplateCard('tpl-classic-minimal', 'tplCard_classic_minimal')" class="bg-slate-900/90 border-2 border-slate-800 rounded-2xl p-4 cursor-pointer transition-all duration-300 hover:border-rose-500/60 flex flex-col justify-between group relative">
         <div class="space-y-3">
           <div class="mini-cv-preview w-full bg-white rounded-lg p-2.5 relative overflow-hidden flex flex-col justify-between text-[6px] text-slate-800">
@@ -525,7 +527,6 @@
         </div>
       </div>
 
-      <!-- Card 4: Executive Gold -->
       <div id="tplCard_emerald" onclick="selectTemplateCard('tpl-emerald', 'tplCard_emerald')" class="bg-slate-900/90 border-2 border-slate-800 rounded-2xl p-4 cursor-pointer transition-all duration-300 hover:border-rose-500/60 flex flex-col justify-between group relative">
         <div class="space-y-3">
           <div class="mini-cv-preview w-full bg-[#faf8f5] rounded-lg relative overflow-hidden flex flex-col justify-between text-[6px] text-slate-800 p-2 pt-3">
@@ -556,7 +557,6 @@
         </div>
       </div>
 
-      <!-- Card 5: Creative Soft Rose -->
       <div id="tplCard_corporate_blue" onclick="selectTemplateCard('tpl-corporate-blue', 'tplCard_corporate_blue')" class="bg-slate-900/90 border-2 border-slate-800 rounded-2xl p-4 cursor-pointer transition-all duration-300 hover:border-rose-500/60 flex flex-col justify-between group relative">
         <div class="space-y-3">
           <div class="mini-cv-preview w-full bg-white rounded-lg p-2.5 relative overflow-hidden flex flex-col justify-between text-[6px] text-slate-800">
@@ -588,7 +588,6 @@
         </div>
       </div>
 
-      <!-- Card 6: Artistic Pattern Header/Footer -->
       <div id="tplCard_serif" onclick="selectTemplateCard('tpl-serif', 'tplCard_serif')" class="bg-slate-900/90 border-2 border-slate-800 rounded-2xl p-4 cursor-pointer transition-all duration-300 hover:border-rose-500/60 flex flex-col justify-between group relative">
         <div class="space-y-3">
           <div class="mini-cv-preview w-full bg-[#fcfbf9] rounded-lg relative overflow-hidden flex flex-col justify-between text-[6px] text-slate-800">
@@ -613,7 +612,6 @@
         </div>
       </div>
 
-      <!-- Card 7: Tech Monospace -->
       <div id="tplCard_tech" onclick="selectTemplateCard('tpl-tech', 'tplCard_tech')" class="bg-slate-900/90 border-2 border-slate-800 rounded-2xl p-4 cursor-pointer transition-all duration-300 hover:border-rose-500/60 flex flex-col justify-between group relative">
         <div class="space-y-3">
           <div class="mini-cv-preview w-full bg-slate-950 rounded-lg p-2.5 relative overflow-hidden flex flex-col justify-between text-[6px] text-slate-300 font-mono border border-slate-800">
@@ -636,7 +634,6 @@
           <span class="w-5 h-5 rounded-full border border-slate-700"></span>
         </div>
       </div>
-
     </div>
 
     <div class="max-w-7xl w-full mx-auto pt-4 border-t border-slate-800/80 flex justify-end flex-shrink-0">
@@ -645,15 +642,10 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
       </button>
     </div>
-
   </div>
 
-  <!-- ========================================== -->
-  <!-- STEP 3: MAIN APP WORKSPACE                 -->
-  <!-- ========================================== -->
+  <!-- STEP 3: MAIN APP WORKSPACE -->
   <div id="mainAppScreen" class="h-screen flex flex-col overflow-hidden hidden">
-
-    <!-- HEADER -->
     <header class="no-print bg-slate-900 text-white px-4 py-3 border-b border-slate-800 flex justify-between items-center gap-3 z-50 flex-shrink-0 shadow-md">
       <div class="flex items-center gap-3">
         <button onclick="goToTemplatesScreen()" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold transition flex items-center gap-1 border border-slate-700">
@@ -682,13 +674,10 @@
       </div>
     </header>
 
-    <!-- MAIN WORKSPACE -->
     <div class="flex-1 flex flex-col lg:flex-row overflow-hidden min-h-0">
-      
       <!-- LEFT PANEL: EDITORS -->
       <div id="tabEditor" class="w-full lg:w-1/2 bg-slate-900 text-slate-200 p-4 md:p-6 overflow-y-auto h-full no-print border-r border-slate-800 space-y-5 block">
         
-        <!-- TEMPLATES SELECTOR IN WORKSPACE -->
         <div class="bg-slate-800/90 p-4 rounded-xl border border-rose-900/40 shadow-lg space-y-3">
           <div class="flex justify-between items-center border-b border-slate-700/80 pb-2">
             <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
@@ -707,7 +696,6 @@
           </div>
         </div>
 
-        <!-- STYLING STUDIO -->
         <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700/80 shadow-lg space-y-4">
           <div class="flex justify-between items-center border-b border-slate-700/80 pb-2">
             <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
@@ -796,7 +784,6 @@
           </div>
         </div>
 
-        <!-- PERSONAL DETAILS FORM -->
         <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
           <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
             <span>👤</span> Στοιχεία Επικοινωνίας
@@ -821,7 +808,6 @@
           </div>
         </div>
 
-        <!-- PROFILE EDITOR -->
         <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-2">
           <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
             <span>📝</span> Προφίλ
@@ -829,7 +815,6 @@
           <textarea id="inputProfile" rows="3" class="w-full p-2 bg-slate-900 text-xs border border-slate-700 rounded text-white leading-relaxed" oninput="updateResume()"></textarea>
         </div>
 
-        <!-- WORK EXPERIENCE EDITOR -->
         <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
           <div class="flex justify-between items-center">
             <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
@@ -840,7 +825,6 @@
           <div id="expInputsList" class="space-y-3"></div>
         </div>
 
-        <!-- EDUCATION EDITOR -->
         <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
           <div class="flex justify-between items-center">
             <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
@@ -851,7 +835,6 @@
           <div id="eduInputsList" class="space-y-3"></div>
         </div>
 
-        <!-- SEMINARS EDITOR -->
         <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
           <div class="flex justify-between items-center">
             <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
@@ -862,7 +845,6 @@
           <div id="seminarInputsList" class="space-y-3"></div>
         </div>
 
-        <!-- DYNAMIC SKILLS EDITOR -->
         <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
           <div class="flex justify-between items-center flex-wrap gap-2">
             <div>
@@ -875,7 +857,6 @@
           <div id="skillInputsList" class="space-y-3"></div>
         </div>
 
-        <!-- LICENSES EDITOR -->
         <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
           <div class="flex justify-between items-center flex-wrap gap-2">
             <div>
@@ -888,7 +869,6 @@
           <div id="licenseInputsList" class="space-y-3"></div>
         </div>
 
-        <!-- LANGUAGES EDITOR -->
         <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
           <div class="flex justify-between items-center">
             <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
@@ -911,7 +891,6 @@
           </button>
         </div>
 
-        <!-- VIEWPORT AUTO-SCALER CONTAINER -->
         <div id="scalerViewport" class="a4-scaler-viewport">
           <div id="a4Scaler" class="a4-scaler flex flex-col items-center">
             <div id="a4PagesContainer" class="flex flex-col items-center w-full"></div>
@@ -936,7 +915,6 @@
 
   </div>
 
-  <!-- JavaScript App Logic -->
   <script>
     const state = {
       templateClass: 'tpl-burgundy',
@@ -1032,6 +1010,26 @@
         bg: "#f8fafc"
       }
     };
+
+    function handleAndroidBack() {
+      const mainApp = document.getElementById('mainAppScreen');
+      const templateScr = document.getElementById('templateScreen');
+      const tabViewer = document.getElementById('tabViewer');
+
+      if (!mainApp.classList.contains('hidden') && !tabViewer.classList.contains('hidden') && window.innerWidth < 1024) {
+        switchTab('edit');
+        return true;
+      }
+      if (!mainApp.classList.contains('hidden')) {
+        goToTemplatesScreen();
+        return true;
+      }
+      if (!templateScr.classList.contains('hidden')) {
+        goToWelcomeScreen();
+        return true;
+      }
+      return false;
+    }
 
     function goToWelcomeScreen() {
       document.getElementById('welcomeScreen').classList.remove('hidden');
@@ -1157,23 +1155,27 @@
       if (btnMob) btnMob.innerText = 'Δημιουργία PDF...';
       if (btnDesk) btnDesk.innerText = 'Δημιουργία PDF...';
 
-      try {
-        if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
-          window.AndroidPrint.printPage();
-        } else if (window.cordova && window.cordova.plugins && window.cordova.plugins.printer) {
-          window.cordova.plugins.printer.print(document.getElementById('a4PagesContainer').innerHTML, { name: 'CV_Resume.pdf' });
-        } else {
-          window.print();
+      updateResume();
+
+      setTimeout(() => {
+        try {
+          if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
+            window.AndroidPrint.printPage();
+          } else if (window.cordova && window.cordova.plugins && window.cordova.plugins.printer) {
+            window.cordova.plugins.printer.print(document.getElementById('a4PagesContainer').innerHTML, { name: 'CV_Resume.pdf' });
+          } else {
+            window.print();
+          }
+        } catch (err) {
+          console.error('Print Error:', err);
+          alert('Σφάλμα εκτύπωσης: ' + err.message);
+        } finally {
+          setTimeout(() => {
+            if (btnMob) btnMob.innerText = 'Λήψη CV σε PDF';
+            if (btnDesk) btnDesk.innerText = 'Download PDF';
+          }, 1000);
         }
-      } catch (err) {
-        console.error('Print Error:', err);
-        alert('Σφάλμα εκτύπωσης: ' + err.message);
-      } finally {
-        setTimeout(() => {
-          if (btnMob) btnMob.innerText = 'Λήψη CV σε PDF';
-          if (btnDesk) btnDesk.innerText = 'Download PDF';
-        }, 1000);
-      }
+      }, 50);
     }
 
     function changeFont(fontFamily) {
@@ -1458,7 +1460,6 @@
       return icon;
     }
 
-    // GENERATE HEADERS ACCORDING TO SELECTED THEME
     function generateHeaderHTML() {
       if (state.templateClass === 'tpl-emerald') {
         return `
@@ -1599,7 +1600,6 @@
       return pageDiv;
     }
 
-    // DYNAMIC FLUID PAGINATION ENGINE (Left Col -> Right Col -> Next Page Left Col...)
     function updateResume() {
       const inpName = document.getElementById('inputName');
       if (inpName) state.name = inpName.value || state.name;
@@ -1618,8 +1618,18 @@
 
       const container = document.getElementById('a4PagesContainer');
       if (!container) return;
-      container.innerHTML = '';
 
+      // ΕΞΑΣΦΑΛΙΣΗ ΔΙΑΣΤΑΣΕΩΝ ΚΑΤΑ ΤΗΝ ΕΜΦΑΝΙΣΗ/ΜΕΤΡΗΣΗ
+      const tabViewer = document.getElementById('tabViewer');
+      const wasHidden = tabViewer && window.getComputedStyle(tabViewer).display === 'none';
+      let oldStyle = '';
+
+      if (wasHidden) {
+        oldStyle = tabViewer.getAttribute('style') || '';
+        tabViewer.style.cssText = 'display: flex !important; position: absolute !important; visibility: hidden !important; top: -9999px !important; left: -9999px !important; width: 794px !important; height: auto !important;';
+      }
+
+      container.innerHTML = '';
       const pages = [];
 
       function getPage(index) {
@@ -1653,7 +1663,6 @@
         return pages[index];
       }
 
-      // PREPARE UNIFIED FLOW ELEMENTS
       const flowElements = [];
 
       // 1. Profile
@@ -1799,7 +1808,6 @@
         flowElements.push({ type: 'block', el: langEl, section: 'lang' });
       }
 
-      // RENDER FLOW ELEMENTS DYNAMICALLY ACROSS COLUMNS & PAGES
       let currentPageIdx = 0;
       let currentColName = 'left';
 
@@ -1811,18 +1819,14 @@
           const page = getPage(currentPageIdx);
           const targetCol = (currentColName === 'left') ? page.leftCol : page.rightCol;
 
-          // Append element to target column
           targetCol.appendChild(itemObj.el);
 
-          // Calculate height limit safely (fallback to 1123px if page container is hidden)
           const pageHeight = page.element.clientHeight || 1123;
           const maxAllowed = pageHeight - 110;
 
           if (page.wrapper.scrollHeight > maxAllowed) {
-            // Remove overflowing element
             targetCol.removeChild(itemObj.el);
 
-            // Orphan header check: if last child left in column is section header, move it too
             let orphanHeader = null;
             const lastChild = targetCol.lastElementChild;
             if (lastChild && lastChild.dataset && lastChild.dataset.sectionHeader === itemObj.section) {
@@ -1830,7 +1834,6 @@
               targetCol.removeChild(orphanHeader);
             }
 
-            // Advance to next column / next page
             if (currentColName === 'left') {
               currentColName = 'right';
             } else {
@@ -1838,7 +1841,6 @@
               currentColName = 'left';
             }
 
-            // Append orphan header to new column if exists
             const newPage = getPage(currentPageIdx);
             const newTargetCol = (currentColName === 'left') ? newPage.leftCol : newPage.rightCol;
             if (orphanHeader) {
@@ -1848,6 +1850,10 @@
             placed = true;
           }
         }
+      }
+
+      if (wasHidden) {
+        tabViewer.setAttribute('style', oldStyle);
       }
 
       setTimeout(fitA4ToScreen, 20);
