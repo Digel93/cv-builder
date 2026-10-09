@@ -27,7 +27,7 @@ public class MainActivity extends BridgeActivity {
                     // Ορισμός A4 μεγέθους και ZERO margins ώστε να μην κόβονται οι σελίδες
                     PrintAttributes attributes = new PrintAttributes.Builder()
                         .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
-                        .setMinMargins(PrintAttributes.Margins.ZERO)
+                        .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
                         .build();
 
                     printManager.print("CV_Resume_Job", printAdapter, attributes);
