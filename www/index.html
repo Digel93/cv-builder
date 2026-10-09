@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="el">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -362,6 +362,13 @@
       transform: translateY(-3px);
     }
 
+    .lang-card-selected {
+      border-color: #f43f5e !important;
+      background-color: rgba(225, 29, 72, 0.25) !important;
+      box-shadow: 0 0 20px rgba(244, 63, 94, 0.4) !important;
+      transform: scale(1.1);
+    }
+
     .mini-cv-preview {
       aspect-ratio: 1 / 1.414;
       box-shadow: 0 8px 16px rgba(0,0,0,0.4);
@@ -372,33 +379,60 @@
     }
   </style>
 </head>
-<body class="h-screen flex flex-col bg-slate-950 text-slate-100 overflow-hidden">
+<body class="h-screen w-screen bg-slate-950 text-slate-100 overflow-hidden flex flex-col">
 
-  <!-- STEP 1: WELCOME SCREEN -->
-  <div id="welcomeScreen" class="fixed inset-0 z-50 bg-slate-950 flex flex-col justify-center items-center p-6 text-center overflow-y-auto">
-    <div class="absolute w-96 h-96 bg-rose-600/10 rounded-full blur-3xl pointer-events-none -top-10 -left-10"></div>
-    <div class="absolute w-96 h-96 bg-rose-900/15 rounded-full blur-3xl pointer-events-none -bottom-10 -right-10"></div>
+  <!-- STEP 1: WELCOME SCREEN (FLAGS ONLY IN LANGUAGE MENU) -->
+  <div id="welcomeScreen" class="fixed inset-0 z-50 bg-slate-950 flex flex-col justify-center items-center p-4 sm:p-6 text-center overflow-y-auto overflow-x-hidden">
+    <div class="absolute w-72 h-72 sm:w-96 sm:h-96 bg-rose-600/10 rounded-full blur-3xl pointer-events-none -top-10 -left-10"></div>
+    <div class="absolute w-72 h-72 sm:w-96 sm:h-96 bg-rose-900/15 rounded-full blur-3xl pointer-events-none -bottom-10 -right-10"></div>
 
-    <div class="max-w-xl w-full flex flex-col items-center space-y-8 relative z-10 my-auto">
-      <div class="w-24 h-28 rounded-3xl bg-gradient-to-b from-rose-600 via-rose-700 to-rose-950 flex items-center justify-center text-white font-black text-3xl shadow-2xl border border-rose-400/30 transform hover:scale-105 transition duration-300">
+    <div class="max-w-md sm:max-w-xl w-full flex flex-col items-center space-y-4 sm:space-y-6 relative z-10 my-auto py-4">
+      <div class="w-16 h-20 sm:w-20 sm:h-24 rounded-2xl sm:rounded-3xl bg-gradient-to-b from-rose-600 via-rose-700 to-rose-950 flex items-center justify-center text-white font-black text-2xl sm:text-3xl shadow-2xl border border-rose-400/30 transform hover:scale-105 transition duration-300 flex-shrink-0">
         CV
       </div>
 
-      <div class="space-y-3">
-        <h1 class="text-3xl sm:text-5xl font-black text-slate-100 tracking-tight leading-tight">
+      <div class="space-y-1.5 sm:space-y-2">
+        <h1 class="text-2xl sm:text-4xl md:text-5xl font-black text-slate-100 tracking-tight leading-tight">
           CV Builder <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600">Studio</span>
         </h1>
-        <p class="text-sm sm:text-base text-slate-400 font-medium max-w-md mx-auto leading-relaxed">
-          Δημιουργήστε επαγγελματικά, διανυσματικά βιογραφικά σημειώματα υψηλής ποιότητας μέσα σε λίγα λεπτά.
+        <p id="welcomeSub" class="text-xs sm:text-sm md:text-base text-slate-400 font-medium max-w-sm sm:max-w-md mx-auto leading-relaxed">
+          Create high-quality, professional vector resumes in minutes.
         </p>
       </div>
 
-      <button onclick="goToTemplatesScreen()" class="glow-button bg-gradient-to-r from-rose-600 via-rose-500 to-rose-700 text-white font-bold text-lg px-10 py-4 rounded-2xl flex items-center gap-3 transition cursor-pointer">
-        <span>✨ Δημιουργία CV</span>
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+      <!-- LANGUAGE SELECTOR - ONLY FLAGS -->
+      <div class="w-full space-y-3 pt-2">
+        <label class="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center justify-center gap-1.5">
+          <span>🌐</span> <span id="lblSelectLang">Select Resume Language</span>
+        </label>
+        <div class="flex items-center justify-center gap-3 sm:gap-4 flex-wrap max-w-md mx-auto px-2">
+          <button type="button" onclick="selectLanguage('el')" id="langBtn_el" class="p-2.5 sm:p-3 bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 rounded-xl transition cursor-pointer shadow-sm text-2xl sm:text-3xl hover:scale-110" title="Ελληνικά">
+            🇬🇷
+          </button>
+          <button type="button" onclick="selectLanguage('en')" id="langBtn_en" class="lang-card-selected p-2.5 sm:p-3 bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 rounded-xl transition cursor-pointer shadow-sm text-2xl sm:text-3xl hover:scale-110" title="English">
+            🇬🇧
+          </button>
+          <button type="button" onclick="selectLanguage('de')" id="langBtn_de" class="p-2.5 sm:p-3 bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 rounded-xl transition cursor-pointer shadow-sm text-2xl sm:text-3xl hover:scale-110" title="Deutsch">
+            🇩🇪
+          </button>
+          <button type="button" onclick="selectLanguage('fr')" id="langBtn_fr" class="p-2.5 sm:p-3 bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 rounded-xl transition cursor-pointer shadow-sm text-2xl sm:text-3xl hover:scale-110" title="Français">
+            🇫🇷
+          </button>
+          <button type="button" onclick="selectLanguage('it')" id="langBtn_it" class="p-2.5 sm:p-3 bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 rounded-xl transition cursor-pointer shadow-sm text-2xl sm:text-3xl hover:scale-110" title="Italiano">
+            🇮🇹
+          </button>
+          <button type="button" onclick="selectLanguage('es')" id="langBtn_es" class="p-2.5 sm:p-3 bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 rounded-xl transition cursor-pointer shadow-sm text-2xl sm:text-3xl hover:scale-110" title="Español">
+            🇪🇸
+          </button>
+        </div>
+      </div>
+
+      <button type="button" onclick="goToTemplatesScreen()" class="glow-button bg-gradient-to-r from-rose-600 via-rose-500 to-rose-700 text-white font-bold text-sm sm:text-base px-8 sm:px-10 py-3 rounded-2xl flex items-center gap-2.5 transition cursor-pointer mt-2">
+        <span id="btnCreateCvText">✨ Create CV</span>
+        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
       </button>
 
-      <p class="text-xs text-slate-500 font-medium pt-8">
+      <p class="text-[10px] sm:text-xs text-slate-500 font-medium pt-2">
         Created by DiGeL® • Premium PDF Export Engine
       </p>
     </div>
@@ -408,16 +442,16 @@
   <div id="templateScreen" class="fixed inset-0 z-50 bg-slate-950 flex flex-col p-4 md:p-8 overflow-y-auto hidden">
     <div class="max-w-7xl w-full mx-auto flex flex-col sm:flex-row justify-between items-center pb-5 border-b border-slate-800/80 gap-4 flex-shrink-0">
       <div>
-        <h2 class="text-2xl sm:text-3xl font-black text-slate-100 flex items-center gap-2">
-          <span>🎯</span> Επιλογή Θέματος Βιογραφικού
+        <h2 id="tplTitle" class="text-2xl sm:text-3xl font-black text-slate-100 flex items-center gap-2">
+          <span>🎯</span> Select CV Theme
         </h2>
-        <p class="text-xs sm:text-sm text-slate-400 mt-1">
-          Επιλέξτε το στυλ που ταιριάζει στο επάγγελμά σας και πατήστε «Επόμενο».
+        <p id="tplSub" class="text-xs sm:text-sm text-slate-400 mt-1">
+          Choose a style that fits your profession and click "Next".
         </p>
       </div>
 
-      <button onclick="goToWelcomeScreen()" class="text-xs text-slate-400 hover:text-slate-200 px-3.5 py-2 bg-slate-900 rounded-xl border border-slate-800 transition">
-        ← Πίσω στην Αρχική
+      <button type="button" onclick="goToWelcomeScreen()" id="btnBackHome" class="text-xs text-slate-400 hover:text-slate-200 px-3.5 py-2 bg-slate-900 rounded-xl border border-slate-800 transition">
+        ← Back to Home
       </button>
     </div>
 
@@ -436,13 +470,13 @@
             </div>
             <div class="grid grid-cols-2 gap-1.5 relative z-10 flex-1">
               <div class="space-y-1">
-                <div class="bg-[#f6d8d8] px-1 py-0.5 rounded font-bold text-[#0d0d0d] flex items-center gap-0.5"><span>👤</span> ΠΡΟΦΙΛ</div>
+                <div class="bg-[#f6d8d8] px-1 py-0.5 rounded font-bold text-[#0d0d0d] flex items-center gap-0.5"><span>👤</span> PROFILE</div>
                 <div class="h-1 w-full bg-slate-300 rounded"></div>
-                <div class="bg-[#f6d8d8] px-1 py-0.5 rounded font-bold text-[#0d0d0d] flex items-center gap-0.5"><span>💼</span> ΕΜΠΕΙΡΙΑ</div>
+                <div class="bg-[#f6d8d8] px-1 py-0.5 rounded font-bold text-[#0d0d0d] flex items-center gap-0.5"><span>💼</span> EXPERIENCE</div>
                 <div class="h-1 w-3/4 bg-slate-300 rounded"></div>
               </div>
               <div class="space-y-1">
-                <div class="bg-[#f6d8d8] px-1 py-0.5 rounded font-bold text-[#0d0d0d] flex items-center gap-0.5"><span>🎓</span> ΕΚΠΑΙΔΕΥΣΗ</div>
+                <div class="bg-[#f6d8d8] px-1 py-0.5 rounded font-bold text-[#0d0d0d] flex items-center gap-0.5"><span>🎓</span> EDUCATION</div>
                 <div class="h-1 w-full bg-slate-300 rounded"></div>
               </div>
             </div>
@@ -450,12 +484,12 @@
           <div>
             <span class="text-[10px] font-bold uppercase tracking-wider text-rose-400">01. Premium Curve</span>
             <h3 class="text-base font-bold text-slate-100 group-hover:text-rose-400 transition">Canva Burgundy</h3>
-            <p class="text-xs text-slate-400 mt-1">Διαχρονικό στυλ με μπορντό τόνους &amp; καμπύλες.</p>
+            <p class="text-xs text-slate-400 mt-1">Timeless style with burgundy accents & curves.</p>
           </div>
         </div>
         <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs font-semibold text-rose-400">
-          <span>Επιλέχθηκε</span>
-          <span class="w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center text-[10px]">✓</span>
+          <span class="badge-text">Selected</span>
+          <span class="badge-icon w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center text-[10px]">✓</span>
         </div>
       </div>
 
@@ -465,19 +499,19 @@
             <div class="flex justify-between items-start mb-1">
               <div>
                 <div class="font-extrabold text-[8px] text-slate-900"> Dimel G.</div>
-                <div class="text-[5px] text-teal-700 font-bold">ΜΗΧΑΝΙΚΟΣ ΛΟΓΙΣΜΙΚΟΥ</div>
+                <div class="text-[5px] text-teal-700 font-bold">SOFTWARE ENGINEER</div>
               </div>
               <div class="w-6 h-6 rounded-full bg-slate-300 border-2 border-white shadow"></div>
             </div>
             <div class="grid grid-cols-2 gap-1.5 flex-1 my-1">
               <div class="space-y-1">
-                <div class="text-teal-700 font-bold border-b border-teal-200">ΠΡΟΦΙΛ</div>
+                <div class="text-teal-700 font-bold border-b border-teal-200">PROFILE</div>
                 <div class="h-1 w-full bg-slate-200 rounded"></div>
-                <div class="text-teal-700 font-bold border-b border-teal-200">ΕΜΠΕΙΡΙΑ</div>
+                <div class="text-teal-700 font-bold border-b border-teal-200">EXPERIENCE</div>
                 <div class="h-1 w-full bg-slate-200 rounded"></div>
               </div>
               <div class="space-y-1">
-                <div class="text-teal-700 font-bold border-b border-teal-200">ΕΚΠΑΙΔΕΥΣΗ</div>
+                <div class="text-teal-700 font-bold border-b border-teal-200">EDUCATION</div>
                 <div class="h-1 w-full bg-slate-200 rounded"></div>
               </div>
             </div>
@@ -485,12 +519,12 @@
           <div>
             <span class="text-[10px] font-bold uppercase tracking-wider text-teal-400">02. Modern Geometric</span>
             <h3 class="text-base font-bold text-slate-100 group-hover:text-rose-400 transition">Teal Angular</h3>
-            <p class="text-xs text-slate-400 mt-1">Σύγχρονες γωνίες σε Teal/Σμαραγδί αποχρώσεις.</p>
+            <p class="text-xs text-slate-400 mt-1">Modern angles in Teal & Emerald tones.</p>
           </div>
         </div>
         <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs font-semibold text-slate-500">
-          <span>Επιλογή</span>
-          <span class="w-5 h-5 rounded-full border border-slate-700"></span>
+          <span class="badge-text">Select</span>
+          <span class="badge-icon w-5 h-5 rounded-full border border-slate-700"></span>
         </div>
       </div>
 
@@ -501,25 +535,25 @@
               <div class="w-6 h-6 rounded-full bg-slate-400 flex-shrink-0"></div>
               <div>
                 <div class="font-bold text-[8px] text-slate-900"> Dimel G.</div>
-                <div class="text-[5px] text-slate-500">Μηχανικός Πληροφορικής MSc</div>
+                <div class="text-[5px] text-slate-500">Software Engineer MSc</div>
               </div>
             </div>
             <div class="space-y-1 flex-1">
-              <div class="flex items-center gap-1 text-slate-900 font-extrabold"><span>✓</span> ΠΡΟΦΙΛ</div>
+              <div class="flex items-center gap-1 text-slate-900 font-extrabold"><span>✓</span> PROFILE</div>
               <div class="h-1 w-full bg-slate-200 rounded"></div>
-              <div class="flex items-center gap-1 text-slate-900 font-extrabold"><span>💼</span> ΕΜΠΕΙΡΙΑ</div>
+              <div class="flex items-center gap-1 text-slate-900 font-extrabold"><span>💼</span> EXPERIENCE</div>
               <div class="h-1 w-11/12 bg-slate-200 rounded"></div>
             </div>
           </div>
           <div>
             <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">03. Clean &amp; Elegant</span>
             <h3 class="text-base font-bold text-slate-100 group-hover:text-rose-400 transition">Minimal Classic</h3>
-            <p class="text-xs text-slate-400 mt-1">Καθαρός σχεδιασμός χωρίς περιττά σχήματα.</p>
+            <p class="text-xs text-slate-400 mt-1">Clean layout without redundant shapes.</p>
           </div>
         </div>
         <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs font-semibold text-slate-500">
-          <span>Επιλογή</span>
-          <span class="w-5 h-5 rounded-full border border-slate-700"></span>
+          <span class="badge-text">Select</span>
+          <span class="badge-icon w-5 h-5 rounded-full border border-slate-700"></span>
         </div>
       </div>
 
@@ -530,13 +564,13 @@
             </div>
             <div class="grid grid-cols-2 gap-1.5 flex-1">
               <div class="space-y-1">
-                <div class="text-amber-700 font-extrabold">★ Προφίλ</div>
+                <div class="text-amber-700 font-extrabold">★ Profile</div>
                 <div class="h-1 w-full bg-slate-200 rounded"></div>
-                <div class="text-amber-700 font-extrabold">★ Εμπειρία</div>
+                <div class="text-amber-700 font-extrabold">★ Experience</div>
                 <div class="h-1 w-4/5 bg-slate-200 rounded"></div>
               </div>
               <div class="space-y-1">
-                <div class="text-amber-700 font-extrabold">★ Εκπαιδευση</div>
+                <div class="text-amber-700 font-extrabold">★ Education</div>
                 <div class="h-1 w-full bg-slate-200 rounded"></div>
               </div>
             </div>
@@ -544,12 +578,12 @@
           <div>
             <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">04. Executive Gold</span>
             <h3 class="text-base font-bold text-slate-100 group-hover:text-rose-400 transition">Gold Accent Banner</h3>
-            <p class="text-xs text-slate-400 mt-1">Σκουρόχρωμοι τόνοι με χρυσές διακριτικές γραμμές.</p>
+            <p class="text-xs text-slate-400 mt-1">Dark elegant tones with gold lines.</p>
           </div>
         </div>
         <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs font-semibold text-slate-500">
-          <span>Επιλογή</span>
-          <span class="w-5 h-5 rounded-full border border-slate-700"></span>
+          <span class="badge-text">Select</span>
+          <span class="badge-icon w-5 h-5 rounded-full border border-slate-700"></span>
         </div>
       </div>
 
@@ -563,11 +597,11 @@
             </div>
             <div class="grid grid-cols-2 gap-1.5 relative z-10 flex-1">
               <div class="space-y-1">
-                <div class="text-rose-500 font-extrabold">● ΠΡΟΦΙΛ</div>
+                <div class="text-rose-500 font-extrabold">● PROFILE</div>
                 <div class="h-1 w-full bg-slate-200 rounded"></div>
               </div>
               <div class="space-y-1">
-                <div class="text-rose-500 font-extrabold">● ΕΚΠΑΙΔΕΥΣΗ</div>
+                <div class="text-rose-500 font-extrabold">● EDUCATION</div>
                 <div class="h-1 w-full bg-slate-200 rounded"></div>
               </div>
             </div>
@@ -575,12 +609,12 @@
           <div>
             <span class="text-[10px] font-bold uppercase tracking-wider text-rose-300">05. Creative Soft</span>
             <h3 class="text-base font-bold text-slate-100 group-hover:text-rose-400 transition">Pastel Pink Dots</h3>
-            <p class="text-xs text-slate-400 mt-1">Απαλές ροζ πινελιές &amp; μοντέρνα αισθητική.</p>
+            <p class="text-xs text-slate-400 mt-1">Soft pink touches & modern aesthetics.</p>
           </div>
         </div>
         <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs font-semibold text-slate-500">
-          <span>Επιλογή</span>
-          <span class="w-5 h-5 rounded-full border border-slate-700"></span>
+          <span class="badge-text">Select</span>
+          <span class="badge-icon w-5 h-5 rounded-full border border-slate-700"></span>
         </div>
       </div>
 
@@ -599,12 +633,12 @@
           <div>
             <span class="text-[10px] font-bold uppercase tracking-wider text-amber-300">06. Artistic Serif</span>
             <h3 class="text-base font-bold text-slate-100 group-hover:text-rose-400 transition">Doodle Pattern</h3>
-            <p class="text-xs text-slate-400 mt-1">Καλλιτεχνικό μοτίβο στις άκρες &amp; Lora Serif.</p>
+            <p class="text-xs text-slate-400 mt-1">Artistic border pattern with Lora Serif.</p>
           </div>
         </div>
         <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs font-semibold text-slate-500">
-          <span>Επιλογή</span>
-          <span class="w-5 h-5 rounded-full border border-slate-700"></span>
+          <span class="badge-text">Select</span>
+          <span class="badge-icon w-5 h-5 rounded-full border border-slate-700"></span>
         </div>
       </div>
 
@@ -622,19 +656,19 @@
           <div>
             <span class="text-[10px] font-bold uppercase tracking-wider text-slate-300">07. Developer</span>
             <h3 class="text-base font-bold text-slate-100 group-hover:text-rose-400 transition">Tech Monospace</h3>
-            <p class="text-xs text-slate-400 mt-1">Monospace γραμματοσειρά για προγραμματιστές.</p>
+            <p class="text-xs text-slate-400 mt-1">Monospace font for developers & tech profiles.</p>
           </div>
         </div>
         <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs font-semibold text-slate-500">
-          <span>Επιλογή</span>
-          <span class="w-5 h-5 rounded-full border border-slate-700"></span>
+          <span class="badge-text">Select</span>
+          <span class="badge-icon w-5 h-5 rounded-full border border-slate-700"></span>
         </div>
       </div>
     </div>
 
     <div class="max-w-7xl w-full mx-auto pt-4 border-t border-slate-800/80 flex justify-end flex-shrink-0">
-      <button onclick="goToMainApp()" class="glow-button bg-rose-600 hover:bg-rose-500 text-white font-bold text-base px-9 py-3.5 rounded-xl flex items-center gap-2 transition cursor-pointer">
-        <span>Επόμενο</span>
+      <button type="button" onclick="goToMainApp()" class="glow-button bg-rose-600 hover:bg-rose-500 text-white font-bold text-base px-9 py-3.5 rounded-xl flex items-center gap-2 transition cursor-pointer">
+        <span id="btnNextText">Next</span>
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
       </button>
     </div>
@@ -644,26 +678,26 @@
   <div id="mainAppScreen" class="h-screen flex flex-col overflow-hidden hidden">
     <header class="no-print bg-slate-900 text-white px-4 py-3 border-b border-slate-800 flex justify-between items-center gap-3 z-50 flex-shrink-0 shadow-md">
       <div class="flex items-center gap-3">
-        <button onclick="goToTemplatesScreen()" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold transition flex items-center gap-1 border border-slate-700">
-          <span>← Θέματα</span>
+        <button type="button" onclick="goToTemplatesScreen()" id="btnHeaderThemes" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold transition flex items-center gap-1 border border-slate-700">
+          <span>← Themes</span>
         </button>
         <div class="w-8 h-10 rounded-[14px] bg-gradient-to-b from-rose-600 to-rose-900 flex items-center justify-center text-white font-black text-sm shadow-md border border-rose-400/30">
           CV
         </div>
         <div class="hidden sm:block">
           <h1 class="font-bold text-sm md:text-base text-slate-100 leading-tight">Canva Style Builder</h1>
-          <p class="text-[11px] text-slate-400">Διαδραστικός Δημιουργός Βιογραφικού • Create by DiGeL®</p>
+          <p class="text-[11px] text-slate-400">Interactive Resume Builder • Created by DiGeL®</p>
         </div>
       </div>
 
       <div class="flex items-center gap-2">
         <label class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 px-3 py-2 rounded-lg border border-slate-700 transition flex items-center gap-1.5 shadow-sm">
           <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-          <span class="hidden sm:inline">Αλλαγή</span> Φωτογραφίας
+          <span class="hidden sm:inline" id="lblChangePhoto">Photo</span>
           <input type="file" id="photoUploader" accept="image/*" class="hidden" onchange="uploadPhoto(event)">
         </label>
 
-        <button onclick="downloadPDF()" class="hidden lg:flex bg-rose-700 hover:bg-rose-600 text-white text-xs md:text-sm font-bold px-4 py-2 rounded-lg shadow-md transition items-center gap-1.5">
+        <button type="button" onclick="downloadPDF()" class="hidden lg:flex bg-rose-700 hover:bg-rose-600 text-white text-xs md:text-sm font-bold px-4 py-2 rounded-lg shadow-md transition items-center gap-1.5">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           <span id="btnTextDesktop">Download PDF</span>
         </button>
@@ -676,33 +710,33 @@
         
         <div class="bg-slate-800/90 p-4 rounded-xl border border-rose-900/40 shadow-lg space-y-3">
           <div class="flex justify-between items-center border-b border-slate-700/80 pb-2">
-            <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
-              <span>🎯</span> Επιλογή Template
+            <h2 id="lblSelectTemplate" class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
+              <span>🎯</span> Select Template
             </h2>
-            <span class="text-[10px] text-slate-400">7 Διαθέσιμα Στυλ</span>
+            <span id="lblAvailableStyles" class="text-[10px] text-slate-400">7 Styles Available</span>
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-            <button onclick="applyTemplate('tpl-burgundy')" class="p-2 bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 rounded text-center font-bold text-slate-200 transition">1. Canva Burgundy</button>
-            <button onclick="applyTemplate('tpl-modern-slate')" class="p-2 bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 rounded text-center font-bold text-slate-200 transition">2. Teal Angular</button>
-            <button onclick="applyTemplate('tpl-classic-minimal')" class="p-2 bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 rounded text-center font-bold text-slate-200 transition">3. Minimal Classic</button>
-            <button onclick="applyTemplate('tpl-emerald')" class="p-2 bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 rounded text-center font-bold text-slate-200 transition">4. Gold Accent</button>
-            <button onclick="applyTemplate('tpl-corporate-blue')" class="p-2 bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 rounded text-center font-bold text-slate-200 transition">5. Pink Pastel</button>
-            <button onclick="applyTemplate('tpl-serif')" class="p-2 bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 rounded text-center font-bold text-slate-200 transition">6. Doodle Pattern</button>
-            <button onclick="applyTemplate('tpl-tech')" class="p-2 bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 rounded text-center font-bold text-slate-200 transition">7. Tech Monospace</button>
+            <button type="button" onclick="applyTemplate('tpl-burgundy')" class="p-2 bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 rounded text-center font-bold text-slate-200 transition">1. Canva Burgundy</button>
+            <button type="button" onclick="applyTemplate('tpl-modern-slate')" class="p-2 bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 rounded text-center font-bold text-slate-200 transition">2. Teal Angular</button>
+            <button type="button" onclick="applyTemplate('tpl-classic-minimal')" class="p-2 bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 rounded text-center font-bold text-slate-200 transition">3. Minimal Classic</button>
+            <button type="button" onclick="applyTemplate('tpl-emerald')" class="p-2 bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 rounded text-center font-bold text-slate-200 transition">4. Gold Accent</button>
+            <button type="button" onclick="applyTemplate('tpl-corporate-blue')" class="p-2 bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 rounded text-center font-bold text-slate-200 transition">5. Pink Pastel</button>
+            <button type="button" onclick="applyTemplate('tpl-serif')" class="p-2 bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 rounded text-center font-bold text-slate-200 transition">6. Doodle Pattern</button>
+            <button type="button" onclick="applyTemplate('tpl-tech')" class="p-2 bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 rounded text-center font-bold text-slate-200 transition">7. Tech Monospace</button>
           </div>
         </div>
 
         <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700/80 shadow-lg space-y-4">
           <div class="flex justify-between items-center border-b border-slate-700/80 pb-2">
-            <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
-              <span>🎨</span> Προσαρμογή Χρωμάτων &amp; Γραμματοσειρών
+            <h2 id="lblCustomizeColorsFonts" class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
+              <span>🎨</span> Colors &amp; Fonts Customization
             </h2>
-            <button onclick="resetStyles()" class="text-[11px] text-slate-400 hover:text-slate-200 underline">Επαναφορά</button>
+            <button type="button" onclick="resetStyles()" id="btnResetStyles" class="text-[11px] text-slate-400 hover:text-slate-200 underline">Reset</button>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
             <div class="md:col-span-2">
-              <label class="block font-semibold text-slate-300 mb-1">Γραμματοσειρά (Font Family - GR &amp; EN)</label>
+              <label id="lblFontFamily" class="block font-semibold text-slate-300 mb-1">Font Family</label>
               <select id="fontSelect" onchange="changeFont(this.value)" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white font-medium focus:ring-2 focus:ring-rose-500">
                 <optgroup label="Sans-Serif (Modern &amp; Clean)">
                   <option value="'Montserrat', sans-serif" selected>Montserrat (Original)</option>
@@ -731,7 +765,7 @@
             </div>
 
             <div>
-              <label class="block font-semibold text-slate-300 mb-1">Κύριο Χρώμα (Primary)</label>
+              <label id="lblPrimaryColor" class="block font-semibold text-slate-300 mb-1">Primary Color</label>
               <div class="flex items-center gap-2">
                 <input type="color" id="colorPrimary" value="#8c2830" onchange="changeColor('--color-primary', this.value)" class="w-8 h-8 rounded border-none cursor-pointer bg-transparent">
                 <span id="hexPrimary" class="text-slate-400 font-mono text-[11px]">#8c2830</span>
@@ -739,7 +773,7 @@
             </div>
 
             <div>
-              <label class="block font-semibold text-slate-300 mb-1">Χρώμα Banner (Pastel)</label>
+              <label id="lblBannerColor" class="block font-semibold text-slate-300 mb-1">Banner Color</label>
               <div class="flex items-center gap-2">
                 <input type="color" id="colorBanner" value="#f6d8d8" onchange="changeColor('--color-banner', this.value)" class="w-8 h-8 rounded border-none cursor-pointer bg-transparent">
                 <span id="hexBanner" class="text-slate-400 font-mono text-[11px]">#f6d8d8</span>
@@ -747,7 +781,7 @@
             </div>
 
             <div>
-              <label class="block font-semibold text-slate-300 mb-1">Χρώμα Κειμένου</label>
+              <label id="lblTextColor" class="block font-semibold text-slate-300 mb-1">Text Color</label>
               <div class="flex items-center gap-2">
                 <input type="color" id="colorText" value="#222222" onchange="changeColor('--color-text', this.value)" class="w-8 h-8 rounded border-none cursor-pointer bg-transparent">
                 <span id="hexText" class="text-slate-400 font-mono text-[11px]">#222222</span>
@@ -755,7 +789,7 @@
             </div>
 
             <div>
-              <label class="block font-semibold text-slate-300 mb-1">Διακοσμητικοί Κύκλοι</label>
+              <label id="lblCircleColor" class="block font-semibold text-slate-300 mb-1">Decorative Circles</label>
               <div class="flex items-center gap-2">
                 <input type="color" id="colorCircle" value="#dec8b8" onchange="changeColor('--color-circle-lg', this.value)" class="w-8 h-8 rounded border-none cursor-pointer bg-transparent">
                 <span id="hexCircle" class="text-slate-400 font-mono text-[11px]">#dec8b8</span>
@@ -764,15 +798,15 @@
 
             <div class="md:col-span-2 pt-2 border-t border-slate-700/80 grid grid-cols-1 md:grid-cols-3 gap-3">
               <div>
-                <label class="block font-semibold text-slate-300 mb-1">Μέγεθος Κειμένου</label>
+                <label id="lblTextSize" class="block font-semibold text-slate-300 mb-1">Text Size</label>
                 <input type="range" min="7" max="11" step="0.5" value="9" oninput="changeSize('--font-scale-base', this.value + 'pt')" class="w-full accent-rose-500">
               </div>
               <div>
-                <label class="block font-semibold text-slate-300 mb-1">Μέγεθος Επικεφαλίδων</label>
+                <label id="lblHeadingSize" class="block font-semibold text-slate-300 mb-1">Heading Size</label>
                 <input type="range" min="8.5" max="14" step="0.5" value="11" oninput="changeSize('--font-scale-heading', this.value + 'pt')" class="w-full accent-rose-500">
               </div>
               <div>
-                <label class="block font-semibold text-slate-300 mb-1">Μέγεθος Ονόματος</label>
+                <label id="lblNameSize" class="block font-semibold text-slate-300 mb-1">Name Size</label>
                 <input type="range" min="16" max="30" step="1" value="22" oninput="changeSize('--font-scale-title', this.value + 'pt')" class="w-full accent-rose-500">
               </div>
             </div>
@@ -780,34 +814,34 @@
           </div>
         </div>
 
-        <!-- ΣΤΟΙΧΕΙΑ ΕΠΙΚΟΙΝΩΝΙΑΣ -->
+        <!-- CONTACT DETAILS -->
         <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
           <div class="flex justify-between items-center border-b border-slate-700/80 pb-2">
-            <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
-              <span>👤</span> Στοιχεία Επικοινωνίας
+            <h2 id="lblContactDetails" class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
+              <span>👤</span> Contact Information
             </h2>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-semibold text-slate-400">Ονοματεπώνυμο</label>
+              <label id="lblFullName" class="block text-xs font-semibold text-slate-400">Full Name</label>
               <input type="text" id="inputName" class="w-full mt-1 p-2 bg-slate-900 text-xs border border-slate-700 rounded text-white" oninput="updateResume()">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-400">Διεύθυνση</label>
+              <label id="lblAddress" class="block text-xs font-semibold text-slate-400">Address</label>
               <input type="text" id="inputAddress" class="w-full mt-1 p-2 bg-slate-900 text-xs border border-slate-700 rounded text-white" oninput="updateResume()">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-400">Κινητό</label>
+              <label id="lblPhone" class="block text-xs font-semibold text-slate-400">Phone</label>
               <input type="text" id="inputPhone" class="w-full mt-1 p-2 bg-slate-900 text-xs border border-slate-700 rounded text-white" oninput="updateResume()">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-400">Email</label>
+              <label id="lblEmail" class="block text-xs font-semibold text-slate-400">Email</label>
               <input type="email" id="inputEmail" class="w-full mt-1 p-2 bg-slate-900 text-xs border border-slate-700 rounded text-white" oninput="updateResume()">
             </div>
           </div>
         </div>
 
-        <!-- ΔΥΝΑΜΙΚΟΣ ΠΕΡΙΕΧΟΜΕΝΟΣ CONTAINER ΕΝΟΤΗΤΩΝ ME ΑΛΛΑΓΗ ΣΕΙΡΑΣ -->
+        <!-- DYNAMIC SECTIONS CONTAINER -->
         <div id="dynamicSectionsContainer" class="space-y-5"></div>
 
       </div>
@@ -816,9 +850,9 @@
       <div id="tabViewer" class="w-full lg:w-1/2 bg-slate-950 p-2 sm:p-4 lg:p-6 flex flex-col justify-start items-center overflow-hidden h-full print-wrapper hidden lg:flex">
         
         <div class="no-print w-full max-w-[210mm] flex justify-end mb-2 lg:hidden flex-shrink-0">
-          <button onclick="downloadPDF()" class="w-full bg-rose-700 hover:bg-rose-600 text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2">
+          <button type="button" onclick="downloadPDF()" class="w-full bg-rose-700 hover:bg-rose-600 text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-            <span id="btnTextMobile">Λήψη CV σε PDF</span>
+            <span id="btnTextMobile">Download CV PDF</span>
           </button>
         </div>
 
@@ -834,13 +868,13 @@
 
     <!-- BOTTOM NAVIGATION BAR FOR MOBILE -->
     <nav class="bottom-nav lg:hidden fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 flex justify-around items-center h-16 z-50 shadow-2xl">
-      <button onclick="switchTab('edit')" id="btnTabEdit" class="flex flex-col items-center justify-center w-1/2 h-full text-rose-500 font-bold text-xs transition">
+      <button type="button" onclick="switchTab('edit')" id="btnTabEdit" class="flex flex-col items-center justify-center w-1/2 h-full text-rose-500 font-bold text-xs transition">
         <span class="text-lg">✏️</span>
-        <span>Επεξεργασία</span>
+        <span id="navEdit">Edit</span>
       </button>
-      <button onclick="switchTab('view')" id="btnTabViewer" class="flex flex-col items-center justify-center w-1/2 h-full text-slate-400 font-bold text-xs transition">
+      <button type="button" onclick="switchTab('view')" id="btnTabViewer" class="flex flex-col items-center justify-center w-1/2 h-full text-slate-400 font-bold text-xs transition">
         <span class="text-lg">👁️</span>
-        <span>Προεπισκόπηση</span>
+        <span id="navPreview">Preview</span>
       </button>
     </nav>
 
@@ -849,52 +883,425 @@
   <script>
     const DEFAULT_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23cbd5e1'/><circle cx='100' cy='72' r='36' fill='%23334155'/><path d='M100 118c-40 0-72 22-72 52v15h144v-15c0-30-32-52-72-52z' fill='%231e293b'/></svg>";
 
+    // DICTIONARY FOR AUTO TRANSLATION
+    const translations = {
+      en: {
+        welcomeSub: "Create high-quality, professional vector resumes in minutes.",
+        lblSelectLang: "Select Resume Language",
+        btnCreateCvText: "✨ Create CV",
+        tplTitle: "🎯 Select CV Theme",
+        tplSub: "Choose a style that fits your profession and click \"Next\".",
+        btnBackHome: "← Back to Home",
+        badgeSelected: "Selected",
+        badgeSelect: "Select",
+        btnNextText: "Next",
+        btnHeaderThemes: "← Themes",
+        lblChangePhoto: "Photo",
+        btnTextDesktop: "Download PDF",
+        btnTextMobile: "Download CV PDF",
+        lblSelectTemplate: "Select Template",
+        lblAvailableStyles: "7 Styles Available",
+        lblCustomizeColorsFonts: "Colors & Fonts Customization",
+        btnResetStyles: "Reset",
+        lblFontFamily: "Font Family",
+        lblPrimaryColor: "Primary Color",
+        lblBannerColor: "Banner Color",
+        lblTextColor: "Text Color",
+        lblCircleColor: "Decorative Circles",
+        lblTextSize: "Text Size",
+        lblHeadingSize: "Heading Size",
+        lblNameSize: "Name Size",
+        lblContactDetails: "Contact Information",
+        lblFullName: "Full Name",
+        lblAddress: "Address",
+        lblPhone: "Phone",
+        lblEmail: "Email",
+        navEdit: "Edit",
+        navPreview: "Preview",
+        btnAdd: "+ Add",
+        btnDeleteTitle: "Delete",
+        sectionTitles: {
+          profile: "PROFILE",
+          exp: "WORK EXPERIENCE",
+          edu: "EDUCATION",
+          sem: "SEMINARS",
+          skills: "SKILLS",
+          lic: "DRIVING LICENSES",
+          lang: "LANGUAGES"
+        },
+        sampleProfile: "Certified Software Engineer specialized in web applications, modern architectures, and scalable UI/UX designs...",
+        sampleExp: [
+          { year: "06/2021 — Present", location: "NEW YORK", title: "Senior Web Developer", subtitle: "Tech Solutions Inc.", desc: "Leading frontend development using modern web stacks and UI design systems." }
+        ],
+        sampleEdu: [
+          { year: "09/2016 — 06/2020", location: "BOSTON", title: "BSc. Computer Science", subtitle: "Tech University", desc: "Software Engineering & Data Structures | Grade: Honors" }
+        ],
+        sampleSem: [
+          { year: "2023", title: "Advanced Full-Stack Engineering", sub: "Professional Certification" }
+        ],
+        sampleSkills: [
+          { name: "Creative Problem Solving", pos: 100 },
+          { name: "Team Organization & Leadership", pos: 90 },
+          { name: "Reliability & Efficiency", pos: 100 }
+        ],
+        sampleLic: [
+          { name: "Category B Driving License", pos: 100 }
+        ],
+        sampleLang: [
+          { name: "English (Native / C2)", pos: 100 }
+        ]
+      },
+      el: {
+        welcomeSub: "Δημιουργήστε επαγγελματικά βιογραφικά σημειώματα υψηλής ποιότητας μέσα σε λίγα λεπτά.",
+        lblSelectLang: "Επιλέξτε Γλώσσα Βιογραφικού",
+        btnCreateCvText: "✨ Δημιουργία CV",
+        tplTitle: "🎯 Επιλογή Θέματος Βιογραφικού",
+        tplSub: "Επιλέξτε το στυλ που ταιριάζει στο επάγγελμά σας και πατήστε «Επόμενο».",
+        btnBackHome: "← Πίσω στην Αρχική",
+        badgeSelected: "Επιλέχθηκε",
+        badgeSelect: "Επιλογή",
+        btnNextText: "Επόμενο",
+        btnHeaderThemes: "← Θέματα",
+        lblChangePhoto: "Φωτογραφία",
+        btnTextDesktop: "Download PDF",
+        btnTextMobile: "Λήψη CV σε PDF",
+        lblSelectTemplate: "Επιλογή Template",
+        lblAvailableStyles: "7 Διαθέσιμα Στυλ",
+        lblCustomizeColorsFonts: "Προσαρμογή Χρωμάτων & Γραμματοσειρών",
+        btnResetStyles: "Επαναφορά",
+        lblFontFamily: "Γραμματοσειρά (Font Family)",
+        lblPrimaryColor: "Κύριο Χρώμα (Primary)",
+        lblBannerColor: "Χρώμα Banner (Pastel)",
+        lblTextColor: "Χρώμα Κειμένου",
+        lblCircleColor: "Διακοσμητικοί Κύκλοι",
+        lblTextSize: "Μέγεθος Κειμένου",
+        lblHeadingSize: "Μέγεθος Επικεφαλίδων",
+        lblNameSize: "Μέγεθος Ονόματος",
+        lblContactDetails: "Στοιχεία Επικοινωνίας",
+        lblFullName: "Ονοματεπώνυμο",
+        lblAddress: "Διεύθυνση",
+        lblPhone: "Κινητό",
+        lblEmail: "Email",
+        navEdit: "Επεξεργασία",
+        navPreview: "Προεπισκόπηση",
+        btnAdd: "+ Προσθήκη",
+        btnDeleteTitle: "Διαγραφή",
+        sectionTitles: {
+          profile: "ΠΡΟΦΙΛ",
+          exp: "ΕΠΑΓΓΕΛΜΑΤΙΚΗ ΕΜΠΕΙΡΙΑ",
+          edu: "ΕΚΠΑΙΔΕΥΣΗ",
+          sem: "ΣΕΜΙΝΑΡΙΑ",
+          skills: "ΔΕΞΙΟΤΗΤΕΣ",
+          lic: "ΑΔΕΙΕΣ ΟΔΗΓΗΣΗΣ",
+          lang: "ΞΕΝΕΣ ΓΛΩΣΣΕΣ"
+        },
+        sampleProfile: "Διπλωματούχος Μηχανικός Υπολογιστών με εξειδίκευση στο Λογισμικό, εφαρμογές Ιστού και σχεδιασμό UI/UX...",
+        sampleExp: [
+          { year: "06/2021 — Σήμερα", location: "ΑΘΗΝΑ", title: "Senior Web Developer", subtitle: "Tech Solutions Α.Ε.", desc: "Σχεδιασμός και ανάπτυξη ιστοσελίδων και εφαρμογών Ιστού με σύγχρονες τεχνολογίες." }
+        ],
+        sampleEdu: [
+          { year: "09/2016 — 06/2020", location: "ΑΘΗΝΑ", title: "BSc. Μηχανικών Πληροφορικής", subtitle: "Πανεπιστήμιο", desc: "Ειδικότητα Λογισμικού | Βαθμός: 8.5" }
+        ],
+        sampleSem: [
+          { year: "2023", title: "Specialized Full-Stack Web Development", sub: "Πιστοποίηση παρακολούθησης" }
+        ],
+        sampleSkills: [
+          { name: "Δημιουργικό πνεύμα", pos: 100 },
+          { name: "Οργανωτική ικανότητα", pos: 90 },
+          { name: "Αξιόπιστος & Συνεπής", pos: 100 }
+        ],
+        sampleLic: [
+          { name: "Δίπλωμα Β' Κατηγορίας", pos: 100 }
+        ],
+        sampleLang: [
+          { name: "Αγγλικά (C2 Proficiency)", pos: 100 }
+        ]
+      },
+      es: {
+        welcomeSub: "Cree currículums profesionales de alta calidad en minutos.",
+        lblSelectLang: "Seleccionar Idioma del CV",
+        btnCreateCvText: "✨ Crear CV",
+        tplTitle: "🎯 Seleccionar Tema de CV",
+        tplSub: "Elija un estilo que se adapte a su profesión y haga clic en \"Siguiente\".",
+        btnBackHome: "← Volver al Inicio",
+        badgeSelected: "Seleccionado",
+        badgeSelect: "Seleccionar",
+        btnNextText: "Siguiente",
+        btnHeaderThemes: "← Temas",
+        lblChangePhoto: "Foto",
+        btnTextDesktop: "Descargar PDF",
+        btnTextMobile: "Descargar CV PDF",
+        lblSelectTemplate: "Seleccionar Plantilla",
+        lblAvailableStyles: "7 Estilos Disponibles",
+        lblCustomizeColorsFonts: "Personalización de Colores y Fuentes",
+        btnResetStyles: "Restablecer",
+        lblFontFamily: "Familia de Fuentes",
+        lblPrimaryColor: "Color Principal",
+        lblBannerColor: "Color del Banner",
+        lblTextColor: "Color del Texto",
+        lblCircleColor: "Círculos Decorativos",
+        lblTextSize: "Tamaño del Texto",
+        lblHeadingSize: "Tamaño de Encabezado",
+        lblNameSize: "Tamaño del Nombre",
+        lblContactDetails: "Información de Contacto",
+        lblFullName: "Nombre Completo",
+        lblAddress: "Dirección",
+        lblPhone: "Teléfono",
+        lblEmail: "Correo Electrónico",
+        navEdit: "Editar",
+        navPreview: "Vista Previa",
+        btnAdd: "+ Añadir",
+        btnDeleteTitle: "Eliminar",
+        sectionTitles: {
+          profile: "PERFIL",
+          exp: "EXPERIENCIA LABORAL",
+          edu: "EDUCACIÓN",
+          sem: "SEMINARIOS",
+          skills: "HABILIDADES",
+          lic: "LICENCIAS DE CONDUCIR",
+          lang: "IDIOMAS"
+        },
+        sampleProfile: "Ingeniero de Software titulado especializado en aplicaciones web, arquitecturas modernas y diseño UI/UX...",
+        sampleExp: [
+          { year: "06/2021 — Presente", location: "MADRID", title: "Desarrollador Web Senior", subtitle: "Tech Solutions S.L.", desc: "Liderando el desarrollo frontend con tecnologías web modernas." }
+        ],
+        sampleEdu: [
+          { year: "09/2016 — 06/2020", location: "BARCELONA", title: "Grado en Ingeniería Informática", subtitle: "Universidad Técnica", desc: "Especialidad en Software | Nota: Notable" }
+        ],
+        sampleSem: [
+          { year: "2023", title: "Desarrollo Web Full-Stack Avanzado", sub: "Certificación Profesional" }
+        ],
+        sampleSkills: [
+          { name: "Resolución Creativa de Problemas", pos: 100 },
+          { name: "Liderazgo y Organización", pos: 90 },
+          { name: "Fiabilidad y Eficiencia", pos: 100 }
+        ],
+        sampleLic: [
+          { name: "Licencia de Conducir Clase B", pos: 100 }
+        ],
+        sampleLang: [
+          { name: "Español (Nativo)", pos: 100 }
+        ]
+      },
+      it: {
+        welcomeSub: "Crea curriculum vitae professionali e di alta qualità in pochi minuti.",
+        lblSelectLang: "Seleziona Lingua del CV",
+        btnCreateCvText: "✨ Crea CV",
+        tplTitle: "🎯 Seleziona Tema CV",
+        tplSub: "Scegli uno stile adatto alla tua professione e clicca su \"Avanti\".",
+        btnBackHome: "← Torna alla Home",
+        badgeSelected: "Selezionato",
+        badgeSelect: "Seleziona",
+        btnNextText: "Avanti",
+        btnHeaderThemes: "← Temi",
+        lblChangePhoto: "Foto",
+        btnTextDesktop: "Scarica PDF",
+        btnTextMobile: "Scarica CV PDF",
+        lblSelectTemplate: "Seleziona Modello",
+        lblAvailableStyles: "7 Stili Disponibili",
+        lblCustomizeColorsFonts: "Personalizzazione Colori e Font",
+        btnResetStyles: "Ripristina",
+        lblFontFamily: "Famiglia di Font",
+        lblPrimaryColor: "Colore Principale",
+        lblBannerColor: "Colore Banner",
+        lblTextColor: "Colore Testo",
+        lblCircleColor: "Cerchi Decorativi",
+        lblTextSize: "Dimensione Testo",
+        lblHeadingSize: "Dimensione Titoli",
+        lblNameSize: "Dimensione Nome",
+        lblContactDetails: "Informazioni di Contatto",
+        lblFullName: "Nome e Cognome",
+        lblAddress: "Indirizzo",
+        lblPhone: "Telefono",
+        lblEmail: "Email",
+        navEdit: "Modifica",
+        navPreview: "Anteprima",
+        btnAdd: "+ Aggiungi",
+        btnDeleteTitle: "Elimina",
+        sectionTitles: {
+          profile: "PROFILO",
+          exp: "ESPERIENZA LAVORATIVA",
+          edu: "ISTRUZIONE",
+          sem: "SEMINARI",
+          skills: "COMPETENZE",
+          lic: "PATENTI DI GUIDA",
+          lang: "LINGUE"
+        },
+        sampleProfile: "Ingegnere del Software specializzato nello sviluppo web, architetture moderne e UI/UX design...",
+        sampleExp: [
+          { year: "06/2021 — Presente", location: "MILANO", title: "Sviluppatore Web Senior", subtitle: "Tech Solutions S.r.l.", desc: "Sviluppo di applicazioni web e interfacce utente moderne." }
+        ],
+        sampleEdu: [
+          { year: "09/2016 — 06/2020", location: "ROMA", title: "Laurea in Ingegneria Informatica", subtitle: "Università degli Studi", desc: "Ingegneria del Software | Votazione: 110 e Lode" }
+        ],
+        sampleSem: [
+          { year: "2023", title: "Sviluppo Web Full-Stack Avanzato", sub: "Certificazione Professionale" }
+        ],
+        sampleSkills: [
+          { name: "Problem Solving Creativo", pos: 100 },
+          { name: "Organizzazione e Leadership", pos: 90 },
+          { name: "Affidabilità ed Efficienza", pos: 100 }
+        ],
+        sampleLic: [
+          { name: "Patente di Guida Categoria B", pos: 100 }
+        ],
+        sampleLang: [
+          { name: "Italiano (Madrelingua)", pos: 100 }
+        ]
+      },
+      fr: {
+        welcomeSub: "Créez des CV professionnels et vectoriels de haute qualité en quelques minutes.",
+        lblSelectLang: "Sélectionner la Langue du CV",
+        btnCreateCvText: "✨ Créer un CV",
+        tplTitle: "🎯 Choisir le Thème du CV",
+        tplSub: "Choisissez un style adapté à votre profession et cliquez sur « Suivant ».",
+        btnBackHome: "← Retour à l'accueil",
+        badgeSelected: "Sélectionné",
+        badgeSelect: "Sélectionner",
+        btnNextText: "Suivant",
+        btnHeaderThemes: "← Thèmes",
+        lblChangePhoto: "Photo",
+        btnTextDesktop: "Télécharger PDF",
+        btnTextMobile: "Télécharger CV PDF",
+        lblSelectTemplate: "Sélectionner un Modèle",
+        lblAvailableStyles: "7 Styles Disponibles",
+        lblCustomizeColorsFonts: "Personnalisation des Couleurs & Polices",
+        btnResetStyles: "Réinitialiser",
+        lblFontFamily: "Police de Caractères",
+        lblPrimaryColor: "Couleur Principale",
+        lblBannerColor: "Couleur de la Bannière",
+        lblTextColor: "Couleur du Texte",
+        lblCircleColor: "Cercles Décoratifs",
+        lblTextSize: "Taille du Texte",
+        lblHeadingSize: "Taille des Titres",
+        lblNameSize: "Taille du Nom",
+        lblContactDetails: "Coordonnées de Contact",
+        lblFullName: "Nom et Prénom",
+        lblAddress: "Adresse",
+        lblPhone: "Téléphone",
+        lblEmail: "E-mail",
+        navEdit: "Éditer",
+        navPreview: "Aperçu",
+        btnAdd: "+ Ajouter",
+        btnDeleteTitle: "Supprimer",
+        sectionTitles: {
+          profile: "PROFIL",
+          exp: "EXPÉRIENCE PROFESSIONNELLE",
+          edu: "ÉDUCATION",
+          sem: "SÉMINAIRES",
+          skills: "COMPÉTENCES",
+          lic: "PERMIS DE CONDUIRE",
+          lang: "LANGUES"
+        },
+        sampleProfile: "Ingénieur Logiciel diplômé spécialisé dans le développement web, architectures modernes et design UI/UX...",
+        sampleExp: [
+          { year: "06/2021 — Présent", location: "PARIS", title: "Développeur Web Senior", subtitle: "Tech Solutions SAS", desc: "Développement d'applications web modernes et interfaces réactives." }
+        ],
+        sampleEdu: [
+          { year: "09/2016 — 06/2020", location: "LYON", title: "Diplôme d'Ingénieur Informatique", subtitle: "Université de Technologie", desc: "Génie Logiciel | Mention Très Bien" }
+        ],
+        sampleSem: [
+          { year: "2023", title: "Développement Web Full-Stack Avancé", sub: "Certification Professionnelle" }
+        ],
+        sampleSkills: [
+          { name: "Résolution Créative de Problèmes", pos: 100 },
+          { name: "Organisation & Leadership", pos: 90 },
+          { name: "Fiabilité & Efficacité", pos: 100 }
+        ],
+        sampleLic: [
+          { name: "Permis de Conduire Catégorie B", pos: 100 }
+        ],
+        sampleLang: [
+          { name: "Français (Langue Maternelle)", pos: 100 }
+        ]
+      },
+      de: {
+        welcomeSub: "Erstellen Sie in wenigen Minuten professionelle, hochwertige Lebensläufe.",
+        lblSelectLang: "Sprache des Lebenslaufs wählen",
+        btnCreateCvText: "✨ CV Erstellen",
+        tplTitle: "🎯 Lebenslauf-Design Wählen",
+        tplSub: "Wählen Sie einen Stil, der zu Ihrem Beruf passt, und klicken Sie auf „Weiter“.",
+        btnBackHome: "← Zurück zur Startseite",
+        badgeSelected: "Ausgewählt",
+        badgeSelect: "Auswählen",
+        btnNextText: "Weiter",
+        btnHeaderThemes: "← Designs",
+        lblChangePhoto: "Foto",
+        btnTextDesktop: "PDF Herunterladen",
+        btnTextMobile: "Lebenslauf PDF Laden",
+        lblSelectTemplate: "Vorlage Auswählen",
+        lblAvailableStyles: "7 Stile Verfügbar",
+        lblCustomizeColorsFonts: "Farben & Schriftarten Anpassen",
+        btnResetStyles: "Zurücksetzen",
+        lblFontFamily: "Schriftart",
+        lblPrimaryColor: "Hauptfarbe",
+        lblBannerColor: "Bannerfarbe",
+        lblTextColor: "Textfarbe",
+        lblCircleColor: "Dekorative Kreise",
+        lblTextSize: "Textgröße",
+        lblHeadingSize: "Überschriftengröße",
+        lblNameSize: "Namensgröße",
+        lblContactDetails: "Kontaktdaten",
+        lblFullName: "Vollständiger Name",
+        lblAddress: "Adresse",
+        lblPhone: "Telefon",
+        lblEmail: "E-Mail",
+        navEdit: "Bearbeiten",
+        navPreview: "Vorschau",
+        btnAdd: "+ Hinzufügen",
+        btnDeleteTitle: "Löschen",
+        sectionTitles: {
+          profile: "PROFIL",
+          exp: "BERUFSERFAHRUNG",
+          edu: "AUSBILDUNG",
+          sem: "SEMINARE",
+          skills: "FÄHIGKEITEN",
+          lic: "FÜHRERSCHEINE",
+          lang: "SPRACHEN"
+        },
+        sampleProfile: "Diplom-Softwareentwickler spezialisiert auf Webanwendungen, moderne Architekturen und UI/UX-Design...",
+        sampleExp: [
+          { year: "06/2021 — Heute", location: "BERLIN", title: "Senior Web-Entwickler", subtitle: "Tech Solutions GmbH", desc: "Leitung der Frontend-Entwicklung mit modernen Web-Technologien." }
+        ],
+        sampleEdu: [
+          { year: "09/2016 — 06/2020", location: "MÜNCHEN", title: "BSc. Informatik", subtitle: "Technische Universität", desc: "Software Engineering | Note: Sehr Gut" }
+        ],
+        sampleSem: [
+          { year: "2023", title: "Erweitertes Full-Stack Web-Engineering", sub: "Professionelle Zertifizierung" }
+        ],
+        sampleSkills: [
+          { name: "Kreative Problemlösung", pos: 100 },
+          { name: "Organisation & Führung", pos: 90 },
+          { name: "Zuverlässigkeit & Effizienz", pos: 100 }
+        ],
+        sampleLic: [
+          { name: "Führerschein Klasse B", pos: 100 }
+        ],
+        sampleLang: [
+          { name: "Deutsch (Muttersprache)", pos: 100 }
+        ]
+      }
+    };
+
     const state = {
+      currentLang: 'en',
       templateClass: 'tpl-burgundy',
-      name: "",
-      address: "",
-      phone: "",
-      email: "",
-      profile: "Διπλωματούχος Μηχανικός Υπολογιστών με εξειδίκευση στο Λογισμικό....",
+      name: "John Doe",
+      address: "New York, USA",
+      phone: "+1 234 567 890",
+      email: "john.doe@example.com",
+      profile: "",
       photoUrl: DEFAULT_AVATAR,
 
-      // ΔΙΑΤΑΞΗ ΚΑΙ ΤΙΤΛΟΙ ΕΝΟΤΗΤΩΝ
       sectionOrder: ['profile', 'exp', 'edu', 'sem', 'skills', 'lic', 'lang'],
-      sectionTitles: {
-        profile: "Προφίλ",
-        exp: "ΕΠΑΓΓΕΛΜΑΤΙΚΗ ΕΜΠΕΙΡΙΑ",
-        edu: "ΕΚΠΑΙΔΕΥΣΗ",
-        sem: "ΣΕΜΙΝΑΡΙΑ",
-        skills: "ΔΕΞΙΟΤΗΤΕΣ",
-        lic: "ΑΔΕΙΕΣ ΟΔΗΓΗΣΗΣ",
-        lang: "ΞΕΝΕΣ ΓΛΩΣΣΕΣ"
-      },
+      sectionTitles: {},
 
-      skills: [
-        { name: "Δημιουργικό πνεύμα", pos: 100 },
-        { name: "Οργανωτική ικανότητα", pos: 90 },
-        { name: "Αξιόπιστος & Συνεπής", pos: 100 }
-      ],
-
-      licenses: [
-        { name: "Δίπλωμα Β' Κατηγορίας", pos: 100 }
-      ],
-
-      languages: [
-        { name: "Αγγλικά (C2 Proficiency)", pos: 100 }
-      ],
-
-      experiences: [
-        { year: "06/2019 — 05/2022", location: "ΑΘΗΝΑ", title: "Junior Web Developer", subtitle: "ΕΤΑΙΡΕΙΑ", desc: "Σχεδιασμός και ανάπτυξη ιστοσελίδων και εφαρμογών Ιστού με χρήση HTML, CSS, JavaScript & PHP." }
-      ],
-
-      educations: [
-        { year: "11/2017 — 07/2021", location: "ΑΘΗΝΑ", title: "BSc. Candidate", subtitle: "Πανεπιστήμιο", desc: "Ειδικότητα Διοίκησης Επιχειρήσεων | Έτος εισαγωγής 10/2017\n- Πόλη: ΑΘΗΝΑ\n- Βαθμός: 10" }
-      ],
-
-      seminars: [
-        { year: "2023", title: "Specialized Web Development Seminar", sub: "Πιστοποίηση παρακολούθησης" }
-      ]
+      skills: [],
+      licenses: [],
+      languages: [],
+      experiences: [],
+      educations: [],
+      seminars: []
     };
 
     const sectionMeta = {
@@ -966,6 +1373,85 @@
       }
     };
 
+    function selectLanguage(langKey) {
+      if (!translations[langKey]) langKey = 'en';
+      state.currentLang = langKey;
+
+      // Update active button state on welcome page
+      ['en', 'el', 'es', 'it', 'fr', 'de'].forEach(lk => {
+        const btn = document.getElementById(`langBtn_${lk}`);
+        if (btn) {
+          if (lk === langKey) {
+            btn.classList.add('lang-card-selected');
+          } else {
+            btn.classList.remove('lang-card-selected');
+          }
+        }
+      });
+
+      const langData = translations[langKey];
+
+      // Update UI elements text
+      const setTxt = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = text;
+      };
+
+      setTxt('welcomeSub', langData.welcomeSub);
+      setTxt('lblSelectLang', langData.lblSelectLang);
+      setTxt('btnCreateCvText', langData.btnCreateCvText);
+      setTxt('tplTitle', langData.tplTitle);
+      setTxt('tplSub', langData.tplSub);
+      setTxt('btnBackHome', langData.btnBackHome);
+      setTxt('btnNextText', langData.btnNextText);
+      setTxt('btnHeaderThemes', langData.btnHeaderThemes);
+      setTxt('lblChangePhoto', langData.lblChangePhoto);
+      setTxt('btnTextDesktop', langData.btnTextDesktop);
+      setTxt('btnTextMobile', langData.btnTextMobile);
+      setTxt('lblSelectTemplate', langData.lblSelectTemplate);
+      setTxt('lblAvailableStyles', langData.lblAvailableStyles);
+      setTxt('lblCustomizeColorsFonts', langData.lblCustomizeColorsFonts);
+      setTxt('btnResetStyles', langData.btnResetStyles);
+      setTxt('lblFontFamily', langData.lblFontFamily);
+      setTxt('lblPrimaryColor', langData.lblPrimaryColor);
+      setTxt('lblBannerColor', langData.lblBannerColor);
+      setTxt('lblTextColor', langData.lblTextColor);
+      setTxt('lblCircleColor', langData.lblCircleColor);
+      setTxt('lblTextSize', langData.lblTextSize);
+      setTxt('lblHeadingSize', langData.lblHeadingSize);
+      setTxt('lblNameSize', langData.lblNameSize);
+      setTxt('lblContactDetails', langData.lblContactDetails);
+      setTxt('lblFullName', langData.lblFullName);
+      setTxt('lblAddress', langData.lblAddress);
+      setTxt('lblPhone', langData.lblPhone);
+      setTxt('lblEmail', langData.lblEmail);
+      setTxt('navEdit', langData.navEdit);
+      setTxt('navPreview', langData.navPreview);
+
+      // Update badges in template cards
+      document.querySelectorAll('.badge-text').forEach(el => {
+        const card = el.closest('.group');
+        if (card && card.classList.contains('tpl-card-selected')) {
+          el.innerText = langData.badgeSelected;
+        } else {
+          el.innerText = langData.badgeSelect;
+        }
+      });
+
+      // Apply localized section titles and default contents
+      state.sectionTitles = JSON.parse(JSON.stringify(langData.sectionTitles));
+      state.profile = langData.sampleProfile;
+      state.experiences = JSON.parse(JSON.stringify(langData.sampleExp));
+      state.educations = JSON.parse(JSON.stringify(langData.sampleEdu));
+      state.seminars = JSON.parse(JSON.stringify(langData.sampleSem));
+      state.skills = JSON.parse(JSON.stringify(langData.sampleSkills));
+      state.licenses = JSON.parse(JSON.stringify(langData.sampleLic));
+      state.languages = JSON.parse(JSON.stringify(langData.sampleLang));
+
+      renderSectionsEditor();
+      updateResume();
+    }
+
     function handleAndroidBack() {
       const mainApp = document.getElementById('mainAppScreen');
       const templateScr = document.getElementById('templateScreen');
@@ -1009,15 +1495,17 @@
 
     function selectTemplateCard(cls, cardId) {
       const cards = ['tplCard_burgundy', 'tplCard_modern_slate', 'tplCard_classic_minimal', 'tplCard_emerald', 'tplCard_corporate_blue', 'tplCard_serif', 'tplCard_tech'];
+      const langData = translations[state.currentLang] || translations.en;
+
       cards.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
           el.classList.remove('tpl-card-selected');
-          const badge = el.querySelector('.mt-3 span:first-child');
-          const icon = el.querySelector('.mt-3 span:last-child');
-          if (badge) badge.innerText = 'Επιλογή';
+          const badge = el.querySelector('.badge-text');
+          const icon = el.querySelector('.badge-icon');
+          if (badge) badge.innerText = langData.badgeSelect;
           if (icon) {
-            icon.className = 'w-5 h-5 rounded-full border border-slate-700';
+            icon.className = 'badge-icon w-5 h-5 rounded-full border border-slate-700';
             icon.innerText = '';
           }
         }
@@ -1026,11 +1514,11 @@
       const selectedCard = document.getElementById(cardId);
       if (selectedCard) {
         selectedCard.classList.add('tpl-card-selected');
-        const badge = selectedCard.querySelector('.mt-3 span:first-child');
-        const icon = selectedCard.querySelector('.mt-3 span:last-child');
-        if (badge) badge.innerText = 'Επιλέχθηκε';
+        const badge = selectedCard.querySelector('.badge-text');
+        const icon = selectedCard.querySelector('.badge-icon');
+        if (badge) badge.innerText = langData.badgeSelected;
         if (icon) {
-          icon.className = 'w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center text-[10px]';
+          icon.className = 'badge-icon w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center text-[10px]';
           icon.innerText = '✓';
         }
       }
@@ -1107,8 +1595,8 @@
       const btnMob = document.getElementById('btnTextMobile');
       const btnDesk = document.getElementById('btnTextDesktop');
       
-      if (btnMob) btnMob.innerText = 'Δημιουργία PDF...';
-      if (btnDesk) btnDesk.innerText = 'Δημιουργία PDF...';
+      if (btnMob) btnMob.innerText = 'Creating PDF...';
+      if (btnDesk) btnDesk.innerText = 'Creating PDF...';
 
       updateResume();
 
@@ -1123,11 +1611,12 @@
           }
         } catch (err) {
           console.error('Print Error:', err);
-          alert('Σφάλμα εκτύπωσης: ' + err.message);
+          alert('Print Error: ' + err.message);
         } finally {
           setTimeout(() => {
-            if (btnMob) btnMob.innerText = 'Λήψη CV σε PDF';
-            if (btnDesk) btnDesk.innerText = 'Download PDF';
+            const langData = translations[state.currentLang] || translations.en;
+            if (btnMob) btnMob.innerText = langData.btnTextMobile;
+            if (btnDesk) btnDesk.innerText = langData.btnTextDesktop;
           }, 1000);
         }
       }, 50);
@@ -1171,10 +1660,9 @@
       const elEmail = document.getElementById('inputEmail');
       if (elEmail) elEmail.value = state.email;
 
-      renderSectionsEditor();
+      selectLanguage('en');
     }
 
-    // ΜΕΤΑΚΙΝΗΣΗ ΕΝΟΤΗΤΩΝ (SECTIONS REORDER)
     function moveSection(secKey, direction) {
       const idx = state.sectionOrder.indexOf(secKey);
       if (idx === -1) return;
@@ -1189,11 +1677,11 @@
       updateResume();
     }
 
-    // ΔΗΜΙΟΥΡΓΙΑ ΔΥΝΑΜΙΚΟΥ PANEL ΕΠΕΞΕΡΓΑΣΙΑΣ
     function renderSectionsEditor() {
       const container = document.getElementById('dynamicSectionsContainer');
       if (!container) return;
       container.innerHTML = '';
+      const langData = translations[state.currentLang] || translations.en;
 
       state.sectionOrder.forEach((secKey, secIdx) => {
         const meta = sectionMeta[secKey];
@@ -1205,7 +1693,7 @@
 
         let addBtnHTML = '';
         if (meta.hasAdd) {
-          addBtnHTML = `<button onclick="${meta.addFn}" class="bg-rose-700 hover:bg-rose-600 text-white text-xs px-2.5 py-1 rounded font-bold shadow transition">+ Προσθήκη</button>`;
+          addBtnHTML = `<button type="button" onclick="${meta.addFn}" class="bg-rose-700 hover:bg-rose-600 text-white text-xs px-2.5 py-1 rounded font-bold shadow transition">${langData.btnAdd}</button>`;
         }
 
         let headerHTML = `
@@ -1214,11 +1702,11 @@
               <span class="text-sm">${meta.icon}</span>
               <input type="text" value="${state.sectionTitles[secKey] || ''}" 
                      oninput="state.sectionTitles['${secKey}']=this.value; updateResume()" 
-                     class="bg-slate-900 text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider border border-slate-700 rounded px-2 py-1 w-full focus:ring-1 focus:ring-rose-500" placeholder="Τίτλος Ενότητας">
+                     class="bg-slate-900 text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider border border-slate-700 rounded px-2 py-1 w-full focus:ring-1 focus:ring-rose-500" placeholder="Section Title">
             </div>
             <div class="flex items-center gap-1.5">
-              <button onclick="moveSection('${secKey}', -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed bg-slate-900 text-slate-500 text-xs px-2 py-1 rounded border border-slate-800"' : 'class="bg-slate-900 hover:bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded border border-slate-700 transition"'} title="Μετακίνηση Πάνω">▲</button>
-              <button onclick="moveSection('${secKey}', 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed bg-slate-900 text-slate-500 text-xs px-2 py-1 rounded border border-slate-800"' : 'class="bg-slate-900 hover:bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded border border-slate-700 transition"'} title="Μετακίνηση Κάτω">▼</button>
+              <button type="button" onclick="moveSection('${secKey}', -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed bg-slate-900 text-slate-500 text-xs px-2 py-1 rounded border border-slate-800"' : 'class="bg-slate-900 hover:bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded border border-slate-700 transition"'} title="Up">▲</button>
+              <button type="button" onclick="moveSection('${secKey}', 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed bg-slate-900 text-slate-500 text-xs px-2 py-1 rounded border border-slate-800"' : 'class="bg-slate-900 hover:bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded border border-slate-700 transition"'} title="Down">▼</button>
               ${addBtnHTML}
             </div>
           </div>
@@ -1253,7 +1741,6 @@
       renderLangInputs();
     }
 
-    // ΜΕΤΑΚΙΝΗΣΗ ΚΑΙ RENDER ΕΓΓΡΑΦΩΝ (ITEM REORDER)
     function moveExp(i, dir) {
       const newIdx = i + dir;
       if (newIdx < 0 || newIdx >= state.experiences.length) return;
@@ -1268,6 +1755,7 @@
       const container = document.getElementById('expInputsList');
       if (!container) return;
       container.innerHTML = '';
+      const langData = translations[state.currentLang] || translations.en;
 
       state.experiences.forEach((exp, i) => {
         const isFirst = (i === 0);
@@ -1276,27 +1764,27 @@
         item.className = 'p-2.5 bg-slate-900 rounded border border-slate-700/80 space-y-2 text-xs relative';
         item.innerHTML = `
           <div class="flex justify-between items-center gap-2 mb-1">
-            <span class="text-[11px] font-bold text-slate-400">Εγγραφή #${i+1}</span>
+            <span class="text-[11px] font-bold text-slate-400">#${i+1}</span>
             <div class="flex items-center gap-1">
-              <button onclick="moveExp(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Πάνω">▲</button>
-              <button onclick="moveExp(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Κάτω">▼</button>
-              <button onclick="removeExp(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+              <button type="button" onclick="moveExp(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Up">▲</button>
+              <button type="button" onclick="moveExp(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Down">▼</button>
+              <button type="button" onclick="removeExp(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition" title="${langData.btnDeleteTitle}">🗑️</button>
             </div>
           </div>
           <div class="flex justify-between gap-2">
-            <input type="text" value="${exp.title}" oninput="state.experiences[${i}].title=this.value; updateResume()" placeholder="Τίτλος Θέσης" class="w-1/2 p-1 bg-slate-800 border border-slate-700 rounded text-white font-bold">
-            <input type="text" value="${exp.location || ''}" oninput="state.experiences[${i}].location=this.value; updateResume()" placeholder="Τοποθεσία" class="w-1/4 p-1 bg-slate-800 border border-slate-700 rounded text-slate-300">
-            <input type="text" value="${exp.year}" oninput="state.experiences[${i}].year=this.value; updateResume()" placeholder="Έτη" class="w-1/4 p-1 bg-slate-800 border border-slate-700 rounded text-white text-right">
+            <input type="text" value="${exp.title}" oninput="state.experiences[${i}].title=this.value; updateResume()" placeholder="Job Title" class="w-1/2 p-1 bg-slate-800 border border-slate-700 rounded text-white font-bold">
+            <input type="text" value="${exp.location || ''}" oninput="state.experiences[${i}].location=this.value; updateResume()" placeholder="Location" class="w-1/4 p-1 bg-slate-800 border border-slate-700 rounded text-slate-300">
+            <input type="text" value="${exp.year}" oninput="state.experiences[${i}].year=this.value; updateResume()" placeholder="Years" class="w-1/4 p-1 bg-slate-800 border border-slate-700 rounded text-white text-right">
           </div>
-          <input type="text" value="${exp.subtitle}" oninput="state.experiences[${i}].subtitle=this.value; updateResume()" placeholder="Εταιρεία" class="w-full p-1 bg-slate-800 border border-slate-700 rounded text-slate-300">
-          <input type="text" value="${exp.desc}" oninput="state.experiences[${i}].desc=this.value; updateResume()" placeholder="Περιγραφή" class="w-full p-1 bg-slate-800 border border-slate-700 rounded text-slate-300">
+          <input type="text" value="${exp.subtitle}" oninput="state.experiences[${i}].subtitle=this.value; updateResume()" placeholder="Company" class="w-full p-1 bg-slate-800 border border-slate-700 rounded text-slate-300">
+          <input type="text" value="${exp.desc}" oninput="state.experiences[${i}].desc=this.value; updateResume()" placeholder="Description" class="w-full p-1 bg-slate-800 border border-slate-700 rounded text-slate-300">
         `;
         container.appendChild(item);
       });
     }
 
     function addExpItem() {
-      state.experiences.push({ year: "2024", location: "ΑΘΗΝΑ", title: "Νέα Θέση", subtitle: "Εταιρεία", desc: "Περιγραφή" });
+      state.experiences.push({ year: "2024", location: "", title: "New Position", subtitle: "Company", desc: "Description..." });
       renderExpInputs();
       updateResume();
     }
@@ -1321,6 +1809,7 @@
       const container = document.getElementById('eduInputsList');
       if (!container) return;
       container.innerHTML = '';
+      const langData = translations[state.currentLang] || translations.en;
 
       state.educations.forEach((edu, i) => {
         const isFirst = (i === 0);
@@ -1329,27 +1818,27 @@
         item.className = 'p-2.5 bg-slate-900 rounded border border-slate-700/80 space-y-2 text-xs relative';
         item.innerHTML = `
           <div class="flex justify-between items-center gap-2 mb-1">
-            <span class="text-[11px] font-bold text-slate-400">Εκπαίδευση #${i+1}</span>
+            <span class="text-[11px] font-bold text-slate-400">#${i+1}</span>
             <div class="flex items-center gap-1">
-              <button onclick="moveEdu(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Πάνω">▲</button>
-              <button onclick="moveEdu(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Κάτω">▼</button>
-              <button onclick="removeEdu(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+              <button type="button" onclick="moveEdu(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Up">▲</button>
+              <button type="button" onclick="moveEdu(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Down">▼</button>
+              <button type="button" onclick="removeEdu(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition" title="${langData.btnDeleteTitle}">🗑️</button>
             </div>
           </div>
           <div class="flex justify-between gap-2">
-            <input type="text" value="${edu.title}" oninput="state.educations[${i}].title=this.value; updateResume()" placeholder="Τίτλος" class="w-1/2 p-1 bg-slate-800 border border-slate-700 rounded text-white font-bold">
-            <input type="text" value="${edu.location || ''}" oninput="state.educations[${i}].location=this.value; updateResume()" placeholder="Τοποθεσία" class="w-1/4 p-1 bg-slate-800 border border-slate-700 rounded text-slate-300">
-            <input type="text" value="${edu.year}" oninput="state.educations[${i}].year=this.value; updateResume()" placeholder="Έτη" class="w-1/4 p-1 bg-slate-800 border border-slate-700 rounded text-white text-right">
+            <input type="text" value="${edu.title}" oninput="state.educations[${i}].title=this.value; updateResume()" placeholder="Degree Title" class="w-1/2 p-1 bg-slate-800 border border-slate-700 rounded text-white font-bold">
+            <input type="text" value="${edu.location || ''}" oninput="state.educations[${i}].location=this.value; updateResume()" placeholder="Location" class="w-1/4 p-1 bg-slate-800 border border-slate-700 rounded text-slate-300">
+            <input type="text" value="${edu.year}" oninput="state.educations[${i}].year=this.value; updateResume()" placeholder="Years" class="w-1/4 p-1 bg-slate-800 border border-slate-700 rounded text-white text-right">
           </div>
-          <input type="text" value="${edu.subtitle}" oninput="state.educations[${i}].subtitle=this.value; updateResume()" placeholder="Ίδρυμα" class="w-full p-1 bg-slate-800 border border-slate-700 rounded text-slate-300">
-          <textarea oninput="state.educations[${i}].desc=this.value; updateResume()" placeholder="Λεπτομέρειες" class="w-full p-1 bg-slate-800 border border-slate-700 rounded text-slate-300" rows="2">${edu.desc}</textarea>
+          <input type="text" value="${edu.subtitle}" oninput="state.educations[${i}].subtitle=this.value; updateResume()" placeholder="Institution" class="w-full p-1 bg-slate-800 border border-slate-700 rounded text-slate-300">
+          <textarea oninput="state.educations[${i}].desc=this.value; updateResume()" placeholder="Details" class="w-full p-1 bg-slate-800 border border-slate-700 rounded text-slate-300" rows="2">${edu.desc}</textarea>
         `;
         container.appendChild(item);
       });
     }
 
     function addEduItem() {
-      state.educations.push({ year: "2024", location: "ΑΘΗΝΑ", title: "Τίτλος Σπουδών", subtitle: "Σχολή", desc: "Βαθμός: 8,0" });
+      state.educations.push({ year: "2024", location: "", title: "Degree Title", subtitle: "University / School", desc: "Grade: Distinction" });
       renderEduInputs();
       updateResume();
     }
@@ -1374,6 +1863,7 @@
       const container = document.getElementById('seminarInputsList');
       if (!container) return;
       container.innerHTML = '';
+      const langData = translations[state.currentLang] || translations.en;
 
       state.seminars.forEach((sem, i) => {
         const isFirst = (i === 0);
@@ -1382,25 +1872,25 @@
         item.className = 'p-2.5 bg-slate-900 rounded border border-slate-700/80 space-y-2 text-xs relative';
         item.innerHTML = `
           <div class="flex justify-between items-center gap-2 mb-1">
-            <span class="text-[11px] font-bold text-slate-400">Σεμινάριο #${i+1}</span>
+            <span class="text-[11px] font-bold text-slate-400">#${i+1}</span>
             <div class="flex items-center gap-1">
-              <button onclick="moveSeminar(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Πάνω">▲</button>
-              <button onclick="moveSeminar(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Κάτω">▼</button>
-              <button onclick="removeSeminar(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+              <button type="button" onclick="moveSeminar(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Up">▲</button>
+              <button type="button" onclick="moveSeminar(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Down">▼</button>
+              <button type="button" onclick="removeSeminar(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition" title="${langData.btnDeleteTitle}">🗑️</button>
             </div>
           </div>
           <div class="flex justify-between gap-2">
-            <input type="text" value="${sem.title}" oninput="state.seminars[${i}].title=this.value; updateResume()" placeholder="Τίτλος" class="w-2/3 p-1 bg-slate-800 border border-slate-700 rounded text-white font-bold">
-            <input type="text" value="${sem.year}" oninput="state.seminars[${i}].year=this.value; updateResume()" placeholder="Ημερομηνία" class="w-1/3 p-1 bg-slate-800 border border-slate-700 rounded text-white text-right">
+            <input type="text" value="${sem.title}" oninput="state.seminars[${i}].title=this.value; updateResume()" placeholder="Title" class="w-2/3 p-1 bg-slate-800 border border-slate-700 rounded text-white font-bold">
+            <input type="text" value="${sem.year}" oninput="state.seminars[${i}].year=this.value; updateResume()" placeholder="Date" class="w-1/3 p-1 bg-slate-800 border border-slate-700 rounded text-white text-right">
           </div>
-          <input type="text" value="${sem.sub}" oninput="state.seminars[${i}].sub=this.value; updateResume()" placeholder="Λεπτομέρειες" class="w-full p-1 bg-slate-800 border border-slate-700 rounded text-slate-300">
+          <input type="text" value="${sem.sub}" oninput="state.seminars[${i}].sub=this.value; updateResume()" placeholder="Details" class="w-full p-1 bg-slate-800 border border-slate-700 rounded text-slate-300">
         `;
         container.appendChild(item);
       });
     }
 
     function addSeminarItem() {
-      state.seminars.push({ year: "2025", title: "Νέο Σεμινάριο", sub: "Λεπτομέρειες" });
+      state.seminars.push({ year: "2025", title: "New Seminar", sub: "Certification Details" });
       renderSeminarInputs();
       updateResume();
     }
@@ -1425,6 +1915,7 @@
       const container = document.getElementById('skillInputsList');
       if (!container) return;
       container.innerHTML = '';
+      const langData = translations[state.currentLang] || translations.en;
 
       state.skills.forEach((sk, i) => {
         const isFirst = (i === 0);
@@ -1435,13 +1926,13 @@
           <div class="flex justify-between items-center gap-2">
             <input type="text" value="${sk.name}" oninput="state.skills[${i}].name=this.value; updateResume()" class="flex-1 p-1 bg-slate-800 border border-slate-700 rounded text-white font-semibold">
             <div class="flex items-center gap-1">
-              <button onclick="moveSkill(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Πάνω">▲</button>
-              <button onclick="moveSkill(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Κάτω">▼</button>
-              <button onclick="removeSkill(${i})" class="text-rose-400 hover:text-rose-300 font-bold px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+              <button type="button" onclick="moveSkill(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Up">▲</button>
+              <button type="button" onclick="moveSkill(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Down">▼</button>
+              <button type="button" onclick="removeSkill(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition" title="${langData.btnDeleteTitle}">🗑️</button>
             </div>
           </div>
           <div class="flex items-center gap-3">
-            <span class="text-[11px] text-slate-400">Θέση Βούλας:</span>
+            <span class="text-[11px] text-slate-400">Level:</span>
             <input type="range" min="0" max="100" value="${sk.pos}" oninput="state.skills[${i}].pos=this.value; updateResume()" class="flex-1 accent-rose-500 cursor-pointer">
             <span class="text-[11px] text-slate-300 w-8 text-right font-mono">${sk.pos}%</span>
           </div>
@@ -1451,7 +1942,7 @@
     }
 
     function addSkillItem() {
-      state.skills.push({ name: "Νέα Δεξιότητα", pos: 100 });
+      state.skills.push({ name: "New Skill", pos: 100 });
       renderSkillInputs();
       updateResume();
     }
@@ -1476,6 +1967,7 @@
       const container = document.getElementById('licenseInputsList');
       if (!container) return;
       container.innerHTML = '';
+      const langData = translations[state.currentLang] || translations.en;
 
       state.licenses.forEach((lic, i) => {
         const isFirst = (i === 0);
@@ -1486,13 +1978,13 @@
           <div class="flex justify-between items-center gap-2">
             <input type="text" value="${lic.name}" oninput="state.licenses[${i}].name=this.value; updateResume()" class="flex-1 p-1 bg-slate-800 border border-slate-700 rounded text-white font-semibold">
             <div class="flex items-center gap-1">
-              <button onclick="moveLicense(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Πάνω">▲</button>
-              <button onclick="moveLicense(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Κάτω">▼</button>
-              <button onclick="removeLicense(${i})" class="text-rose-400 hover:text-rose-300 font-bold px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+              <button type="button" onclick="moveLicense(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Up">▲</button>
+              <button type="button" onclick="moveLicense(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Down">▼</button>
+              <button type="button" onclick="removeLicense(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition" title="${langData.btnDeleteTitle}">🗑️</button>
             </div>
           </div>
           <div class="flex items-center gap-3">
-            <span class="text-[11px] text-slate-400">Θέση Βούλας:</span>
+            <span class="text-[11px] text-slate-400">Level:</span>
             <input type="range" min="0" max="100" value="${lic.pos}" oninput="state.licenses[${i}].pos=this.value; updateResume()" class="flex-1 accent-rose-500 cursor-pointer">
             <span class="text-[11px] text-slate-300 w-8 text-right font-mono">${lic.pos}%</span>
           </div>
@@ -1502,7 +1994,7 @@
     }
 
     function addLicenseItem() {
-      state.licenses.push({ name: "Νέα Άδεια Οδήγησης", pos: 100 });
+      state.licenses.push({ name: "New License", pos: 100 });
       renderLicenseInputs();
       updateResume();
     }
@@ -1527,6 +2019,7 @@
       const container = document.getElementById('langInputsList');
       if (!container) return;
       container.innerHTML = '';
+      const langData = translations[state.currentLang] || translations.en;
 
       state.languages.forEach((lang, i) => {
         const isFirst = (i === 0);
@@ -1535,15 +2028,15 @@
         item.className = 'p-2.5 bg-slate-900 rounded border border-slate-700/80 space-y-2 text-xs relative';
         item.innerHTML = `
           <div class="flex justify-between items-center gap-2">
-            <input type="text" value="${lang.name}" oninput="state.languages[${i}].name=this.value; updateResume()" placeholder="Γλώσσα" class="flex-1 p-1 bg-slate-800 border border-slate-700 rounded text-white font-bold">
+            <input type="text" value="${lang.name}" oninput="state.languages[${i}].name=this.value; updateResume()" placeholder="Language" class="flex-1 p-1 bg-slate-800 border border-slate-700 rounded text-white font-bold">
             <div class="flex items-center gap-1">
-              <button onclick="moveLang(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Πάνω">▲</button>
-              <button onclick="moveLang(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Κάτω">▼</button>
-              <button onclick="removeLang(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+              <button type="button" onclick="moveLang(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Up">▲</button>
+              <button type="button" onclick="moveLang(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Down">▼</button>
+              <button type="button" onclick="removeLang(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition" title="${langData.btnDeleteTitle}">🗑️</button>
             </div>
           </div>
           <div class="flex items-center gap-3">
-            <span class="text-[11px] text-slate-400">Θέση Βούλας:</span>
+            <span class="text-[11px] text-slate-400">Level:</span>
             <input type="range" min="0" max="100" value="${lang.pos}" oninput="state.languages[${i}].pos=this.value; updateResume()" class="flex-1 accent-rose-500 cursor-pointer">
             <span class="text-[11px] text-slate-300 w-8 text-right font-mono">${lang.pos}%</span>
           </div>
@@ -1553,7 +2046,7 @@
     }
 
     function addLangItem() {
-      state.languages.push({ name: "Νέα Ξένη Γλώσσα | Επίπεδο", pos: 100 });
+      state.languages.push({ name: "New Language | Level", pos: 100 });
       renderLangInputs();
       updateResume();
     }
@@ -1625,9 +2118,9 @@
                 ${state.name || ''}
               </h1>
               <div class="mt-2 space-y-1 font-medium" style="font-size: var(--font-scale-base);">
-                <div><strong>Διεύθυνση:</strong> <span>${state.address}</span></div>
-                <div><strong>Κινητό:</strong> <span>${state.phone}</span></div>
-                <div><strong>Email:</strong> <span>${state.email}</span></div>
+                <div><strong>📍</strong> <span>${state.address}</span></div>
+                <div><strong>📞</strong> <span>${state.phone}</span></div>
+                <div><strong>✉️</strong> <span>${state.email}</span></div>
               </div>
             </div>
             <div class="relative z-20 flex-shrink-0">
@@ -1716,14 +2209,13 @@
           <div class="page-content-wrapper"></div>
           <div class="border-t border-slate-300/80 pt-2 flex justify-between font-medium opacity-70" style="font-size: calc(var(--font-scale-base) * 0.85);">
             <span>${state.name || ''} — CV</span>
-            <span class="page-number-label">Σελίδα ${pageNum}</span>
+            <span class="page-number-label">Page ${pageNum}</span>
           </div>
         </div>
       `;
       return pageDiv;
     }
 
-    // ΔΥΝΑΜΙΚΗ ΡΟΗ ΚΕΙΜΕΝΟΥ ΜΕ ΒΑΣΗ ΤΗ ΣΕΙΡΑ ΚΑΙ ΤΟΥΣ ΤΙΤΛΟΥΣ
     function updateResume() {
       const inpName = document.getElementById('inputName');
       if (inpName) state.name = inpName.value || state.name;
@@ -1785,14 +2277,13 @@
 
       const flowElements = [];
 
-      // ΔΗΜΙΟΥΡΓΙΑ ΣТОΙΧΕΙΩΝ ΡΟΗΣ ΜΕ ΒΑΣΗ ΤΗ ΣΕΙΡΑ state.sectionOrder
       state.sectionOrder.forEach((secKey) => {
         if (secKey === 'profile') {
           if (state.profile && state.profile.trim() !== '') {
             const profEl = document.createElement('div');
             profEl.className = 'cv-block mb-3';
             profEl.innerHTML = `
-              ${generateSectionPillHTML(state.sectionTitles.profile || "Προφίλ", "👤")}
+              ${generateSectionPillHTML(state.sectionTitles.profile || "PROFILE", "👤")}
               <p class="text-justify font-medium" style="font-size: var(--font-scale-base); line-height: 1.4;">${state.profile}</p>
             `;
             flowElements.push({ type: 'block', el: profEl, section: 'profile' });
@@ -1802,7 +2293,7 @@
             const expHeader = document.createElement('div');
             expHeader.className = 'section-header-exp mb-1';
             expHeader.dataset.sectionHeader = 'exp';
-            expHeader.innerHTML = generateSectionPillHTML(state.sectionTitles.exp || "ΕΠΑΓΓΕΛΜΑΤΙΚΗ ΕΜΠΕΙΡΙΑ", "💼");
+            expHeader.innerHTML = generateSectionPillHTML(state.sectionTitles.exp || "WORK EXPERIENCE", "💼");
             flowElements.push({ type: 'header', el: expHeader, section: 'exp' });
 
             state.experiences.forEach((exp) => {
@@ -1823,7 +2314,7 @@
             const eduHeader = document.createElement('div');
             eduHeader.className = 'section-header-edu mb-1';
             eduHeader.dataset.sectionHeader = 'edu';
-            eduHeader.innerHTML = generateSectionPillHTML(state.sectionTitles.edu || "ΕΚΠΑΙΔΕΥΣΗ", "🎓");
+            eduHeader.innerHTML = generateSectionPillHTML(state.sectionTitles.edu || "EDUCATION", "🎓");
             flowElements.push({ type: 'header', el: eduHeader, section: 'edu' });
 
             state.educations.forEach((edu) => {
@@ -1844,7 +2335,7 @@
             const semHeader = document.createElement('div');
             semHeader.className = 'section-header-sem mb-1';
             semHeader.dataset.sectionHeader = 'sem';
-            semHeader.innerHTML = generateSectionPillHTML(state.sectionTitles.sem || "ΣΕΜΙΝΑΡΙΑ", "📜");
+            semHeader.innerHTML = generateSectionPillHTML(state.sectionTitles.sem || "SEMINARS", "📜");
             flowElements.push({ type: 'header', el: semHeader, section: 'sem' });
 
             state.seminars.forEach((sem) => {
@@ -1864,7 +2355,7 @@
             const skillsEl = document.createElement('div');
             skillsEl.className = 'cv-block mb-3';
             skillsEl.innerHTML = `
-              ${generateSectionPillHTML(state.sectionTitles.skills || "ΔΕΞΙΟΤΗΤΕΣ", "⚖️")}
+              ${generateSectionPillHTML(state.sectionTitles.skills || "SKILLS", "⚖️")}
               <div class="space-y-2">
                 ${state.skills.map(sk => `
                   <div class="skill-slider-row">
@@ -1883,7 +2374,7 @@
             const licEl = document.createElement('div');
             licEl.className = 'cv-block mb-3';
             licEl.innerHTML = `
-              ${generateSectionPillHTML(state.sectionTitles.lic || "ΑΔΕΙΕΣ ΟΔΗΓΗΣΗΣ", "🚗")}
+              ${generateSectionPillHTML(state.sectionTitles.lic || "DRIVING LICENSES", "🚗")}
               <div class="space-y-2">
                 ${state.licenses.map(lic => `
                   <div class="skill-slider-row">
@@ -1902,7 +2393,7 @@
             const langEl = document.createElement('div');
             langEl.className = 'cv-block mb-3';
             langEl.innerHTML = `
-              ${generateSectionPillHTML(state.sectionTitles.lang || "ΞΕΝΕΣ ΓΛΩΣΣΕΣ", "🌐")}
+              ${generateSectionPillHTML(state.sectionTitles.lang || "LANGUAGES", "🌐")}
               <div class="space-y-2">
                 ${state.languages.map(lang => `
                   <div class="skill-slider-row">
