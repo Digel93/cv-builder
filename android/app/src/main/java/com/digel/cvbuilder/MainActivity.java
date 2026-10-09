@@ -7,6 +7,7 @@ import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
 import android.content.Context;
+import androidx.activity.OnBackPressedCallback;
 import com.getcapacitor.BridgeActivity;
 
 public class MainActivity extends BridgeActivity {
@@ -15,6 +16,7 @@ public class MainActivity extends BridgeActivity {
         super.onCreate(savedInstanceState);
         
         WebView webView = this.bridge.getWebView();
+        
         webView.addJavascriptInterface(new Object() {
             @JavascriptInterface
             public void printPage() {
@@ -25,5 +27,18 @@ public class MainActivity extends BridgeActivity {
                 });
             }
         }, "AndroidPrint");
+
+        // Χειρισμός του κουμπιού Back του Android
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                webView.evaluateJavascript("handleAndroidBack()", value -> {
+                    // Αν η handleAndroidBack() επιστρέψει "false", κλείνει η εφαρμογή
+                    if ("false".equals(value)) {
+                        finish();
+                    }
+                });
+            }
+        });
     }
 }
