@@ -39,7 +39,7 @@
       margin: 0;
     }
 
-    /* PRINT STYLING - ΠΛΗΡΗΣ ΕΜΦΑΝΙΣΗ ΟΛΩΝ ΤΩΝ ΣΕΛΙΔΩΝ */
+    /* PRINT STYLING */
     @media print {
       html, body, #mainAppScreen, #mainAppScreen *, .print-wrapper, #tabViewer, .a4-scaler-viewport, .a4-scaler, #a4PagesContainer {
         overflow: visible !important;
@@ -129,7 +129,7 @@
       flex-shrink: 0;
     }
 
-    /* DECORATIONS FOR TEMPLATE 1 (CANVA BURGUNDY) */
+    /* DECORATIONS FOR TEMPLATES */
     .decor-burgundy .decor-top-left-arch {
       position: absolute;
       top: 40px;
@@ -187,7 +187,6 @@
       background-color: var(--color-banner);
     }
 
-    /* DECORATIONS FOR TEMPLATE 2 (TEAL ANGULAR) */
     .decor-teal-angular .teal-top-banner {
       position: absolute;
       top: 0;
@@ -209,7 +208,6 @@
       z-index: 1;
     }
 
-    /* DECORATIONS FOR TEMPLATE 4 (EXECUTIVE GOLD BANNER) */
     .decor-gold-banner .gold-top-header {
       position: absolute;
       top: 0;
@@ -221,7 +219,6 @@
       z-index: 1;
     }
 
-    /* DECORATIONS FOR TEMPLATE 5 (PASTEL PINK DOTS) */
     .decor-pastel-dots .dot-tl {
       position: absolute;
       top: -30px;
@@ -256,7 +253,6 @@
       z-index: 1;
     }
 
-    /* DECORATIONS FOR TEMPLATE 6 (DOODLE PATTERN) */
     .decor-doodle-pattern .doodle-top-bar {
       position: absolute;
       top: 0;
@@ -403,7 +399,7 @@
       </button>
 
       <p class="text-xs text-slate-500 font-medium pt-8">
-        Created by DiGeL® • Premium Native PDF Engine
+        Created by DiGeL® • Premium PDF Export Engine
       </p>
     </div>
   </div>
@@ -676,7 +672,7 @@
 
     <div class="flex-1 flex flex-col lg:flex-row overflow-hidden min-h-0">
       <!-- LEFT PANEL: EDITORS -->
-      <div id="tabEditor" class="w-full lg:w-1/2 bg-slate-900 text-slate-200 p-4 md:p-6 overflow-y-auto h-full no-print border-r border-slate-800 space-y-5 block">
+      <div id="tabEditor" class="w-full lg:w-1/2 bg-slate-900 text-slate-200 p-4 md:p-6 pb-32 overflow-y-auto h-full no-print border-r border-slate-800 space-y-5 block">
         
         <div class="bg-slate-800/90 p-4 rounded-xl border border-rose-900/40 shadow-lg space-y-3">
           <div class="flex justify-between items-center border-b border-slate-700/80 pb-2">
@@ -784,10 +780,13 @@
           </div>
         </div>
 
+        <!-- ΣΤΟΙΧΕΙΑ ΕΠΙΚΟΙΝΩΝΙΑΣ -->
         <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
-          <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
-            <span>👤</span> Στοιχεία Επικοινωνίας
-          </h2>
+          <div class="flex justify-between items-center border-b border-slate-700/80 pb-2">
+            <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
+              <span>👤</span> Στοιχεία Επικοινωνίας
+            </h2>
+          </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-semibold text-slate-400">Ονοματεπώνυμο</label>
@@ -808,76 +807,8 @@
           </div>
         </div>
 
-        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-2">
-          <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
-            <span>📝</span> Προφίλ
-          </h2>
-          <textarea id="inputProfile" rows="3" class="w-full p-2 bg-slate-900 text-xs border border-slate-700 rounded text-white leading-relaxed" oninput="updateResume()"></textarea>
-        </div>
-
-        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
-          <div class="flex justify-between items-center">
-            <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
-              <span>💼</span> Επαγγελματική Εμπειρία
-            </h2>
-            <button onclick="addExpItem()" class="bg-rose-700 hover:bg-rose-600 text-white text-xs px-2.5 py-1 rounded font-bold shadow">+ Προσθήκη</button>
-          </div>
-          <div id="expInputsList" class="space-y-3"></div>
-        </div>
-
-        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
-          <div class="flex justify-between items-center">
-            <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
-              <span>🎓</span> Εκπαίδευση
-            </h2>
-            <button onclick="addEduItem()" class="bg-rose-700 hover:bg-rose-600 text-white text-xs px-2.5 py-1 rounded font-bold shadow">+ Προσθήκη</button>
-          </div>
-          <div id="eduInputsList" class="space-y-3"></div>
-        </div>
-
-        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
-          <div class="flex justify-between items-center">
-            <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
-              <span>📜</span> Σεμινάρια
-            </h2>
-            <button onclick="addSeminarItem()" class="bg-rose-700 hover:bg-rose-600 text-white text-xs px-2.5 py-1 rounded font-bold shadow">+ Προσθήκη</button>
-          </div>
-          <div id="seminarInputsList" class="space-y-3"></div>
-        </div>
-
-        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
-          <div class="flex justify-between items-center flex-wrap gap-2">
-            <div>
-              <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
-                <span>🎚</span> Δεξιότητες (Sliders)
-              </h2>
-            </div>
-            <button onclick="addSkillItem()" class="bg-rose-700 hover:bg-rose-600 text-white text-xs px-2.5 py-1 rounded font-bold shadow">+ Προσθήκη</button>
-          </div>
-          <div id="skillInputsList" class="space-y-3"></div>
-        </div>
-
-        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
-          <div class="flex justify-between items-center flex-wrap gap-2">
-            <div>
-              <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
-                <span>🚗</span> Άδειες Οδήγησης
-              </h2>
-            </div>
-            <button onclick="addLicenseItem()" class="bg-rose-700 hover:bg-rose-600 text-white text-xs px-2.5 py-1 rounded font-bold shadow">+ Προσθήκη</button>
-          </div>
-          <div id="licenseInputsList" class="space-y-3"></div>
-        </div>
-
-        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3">
-          <div class="flex justify-between items-center">
-            <h2 class="text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
-              <span>🌐</span> Ξένες Γλώσσες
-            </h2>
-            <button onclick="addLangItem()" class="bg-rose-700 hover:bg-rose-600 text-white text-xs px-2.5 py-1 rounded font-bold shadow">+ Προσθήκη</button>
-          </div>
-          <div id="langInputsList" class="space-y-3"></div>
-        </div>
+        <!-- ΔΥΝΑΜΙΚΟΣ ΠΕΡΙΕΧΟΜΕΝΟΣ CONTAINER ΕΝΟΤΗΤΩΝ ME ΑΛΛΑΓΗ ΣΕΙΡΑΣ -->
+        <div id="dynamicSectionsContainer" class="space-y-5"></div>
 
       </div>
 
@@ -916,6 +847,8 @@
   </div>
 
   <script>
+    const DEFAULT_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23cbd5e1'/><circle cx='100' cy='72' r='36' fill='%23334155'/><path d='M100 118c-40 0-72 22-72 52v15h144v-15c0-30-32-52-72-52z' fill='%231e293b'/></svg>";
+
     const state = {
       templateClass: 'tpl-burgundy',
       name: "",
@@ -923,7 +856,19 @@
       phone: "",
       email: "",
       profile: "Διπλωματούχος Μηχανικός Υπολογιστών με εξειδίκευση στο Λογισμικό....",
-      photoUrl: "https://lh3.googleusercontent.com/gg/ACRwjavK8l90duwc1RBGFOVIp_b1gy_QJcP-40CGYYTnozgvjEN4NUNgCMDGAFKgVUugM62h7E174mWEMKLwXLqpKfw5A-mXdYYW9QIX2Ahx-AeFnyWjgonroiXVIxtmvbvBoWsPhe1V5zadx9ymnaLhRRCWR4Rl7HRjLCw2Hvu0Vfapj2KbhWz2vI7i-o_K_RcUZ4M7BPDD6ocyfO1GihYOHFzCKMVAkf75tpPwywjt8ciz8WDcH0kFiS8uTG4tV6JVW0oWPaT6uFshZ5BUyEV3MIgFdwUnQ34gMOM=s0",
+      photoUrl: DEFAULT_AVATAR,
+
+      // ΔΙΑΤΑΞΗ ΚΑΙ ΤΙΤΛΟΙ ΕΝΟΤΗΤΩΝ
+      sectionOrder: ['profile', 'exp', 'edu', 'sem', 'skills', 'lic', 'lang'],
+      sectionTitles: {
+        profile: "Προφίλ",
+        exp: "ΕΠΑΓΓΕΛΜΑΤΙΚΗ ΕΜΠΕΙΡΙΑ",
+        edu: "ΕΚΠΑΙΔΕΥΣΗ",
+        sem: "ΣΕΜΙΝΑΡΙΑ",
+        skills: "ΔΕΞΙΟΤΗΤΕΣ",
+        lic: "ΑΔΕΙΕΣ ΟΔΗΓΗΣΗΣ",
+        lang: "ΞΕΝΕΣ ΓΛΩΣΣΕΣ"
+      },
 
       skills: [
         { name: "Δημιουργικό πνεύμα", pos: 100 },
@@ -950,6 +895,16 @@
       seminars: [
         { year: "2023", title: "Specialized Web Development Seminar", sub: "Πιστοποίηση παρακολούθησης" }
       ]
+    };
+
+    const sectionMeta = {
+      profile: { icon: "📝", hasAdd: false },
+      exp: { icon: "💼", hasAdd: true, addFn: "addExpItem()" },
+      edu: { icon: "🎓", hasAdd: true, addFn: "addEduItem()" },
+      sem: { icon: "📜", hasAdd: true, addFn: "addSeminarItem()" },
+      skills: { icon: "🎚", hasAdd: true, addFn: "addSkillItem()" },
+      lic: { icon: "🚗", hasAdd: true, addFn: "addLicenseItem()" },
+      lang: { icon: "🌐", hasAdd: true, addFn: "addLangItem()" }
     };
 
     const templatePresets = {
@@ -1216,84 +1171,96 @@
       const elEmail = document.getElementById('inputEmail');
       if (elEmail) elEmail.value = state.email;
 
-      const elProf = document.getElementById('inputProfile');
-      if (elProf) elProf.value = state.profile;
+      renderSectionsEditor();
+    }
 
-      renderSkillInputs();
-      renderLicenseInputs();
+    // ΜΕΤΑΚΙΝΗΣΗ ΕΝΟΤΗΤΩΝ (SECTIONS REORDER)
+    function moveSection(secKey, direction) {
+      const idx = state.sectionOrder.indexOf(secKey);
+      if (idx === -1) return;
+      const newIdx = idx + direction;
+      if (newIdx < 0 || newIdx >= state.sectionOrder.length) return;
+
+      const temp = state.sectionOrder[idx];
+      state.sectionOrder[idx] = state.sectionOrder[newIdx];
+      state.sectionOrder[newIdx] = temp;
+
+      renderSectionsEditor();
+      updateResume();
+    }
+
+    // ΔΗΜΙΟΥΡΓΙΑ ΔΥΝΑΜΙΚΟΥ PANEL ΕΠΕΞΕΡΓΑΣΙΑΣ
+    function renderSectionsEditor() {
+      const container = document.getElementById('dynamicSectionsContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      state.sectionOrder.forEach((secKey, secIdx) => {
+        const meta = sectionMeta[secKey];
+        const isFirst = (secIdx === 0);
+        const isLast = (secIdx === state.sectionOrder.length - 1);
+
+        const card = document.createElement('div');
+        card.className = 'bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 space-y-3';
+
+        let addBtnHTML = '';
+        if (meta.hasAdd) {
+          addBtnHTML = `<button onclick="${meta.addFn}" class="bg-rose-700 hover:bg-rose-600 text-white text-xs px-2.5 py-1 rounded font-bold shadow transition">+ Προσθήκη</button>`;
+        }
+
+        let headerHTML = `
+          <div class="flex justify-between items-center gap-2 flex-wrap border-b border-slate-700/80 pb-2">
+            <div class="flex items-center gap-2 flex-1 min-w-[180px]">
+              <span class="text-sm">${meta.icon}</span>
+              <input type="text" value="${state.sectionTitles[secKey] || ''}" 
+                     oninput="state.sectionTitles['${secKey}']=this.value; updateResume()" 
+                     class="bg-slate-900 text-xs md:text-sm font-bold text-rose-400 uppercase tracking-wider border border-slate-700 rounded px-2 py-1 w-full focus:ring-1 focus:ring-rose-500" placeholder="Τίτλος Ενότητας">
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="moveSection('${secKey}', -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed bg-slate-900 text-slate-500 text-xs px-2 py-1 rounded border border-slate-800"' : 'class="bg-slate-900 hover:bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded border border-slate-700 transition"'} title="Μετακίνηση Πάνω">▲</button>
+              <button onclick="moveSection('${secKey}', 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed bg-slate-900 text-slate-500 text-xs px-2 py-1 rounded border border-slate-800"' : 'class="bg-slate-900 hover:bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded border border-slate-700 transition"'} title="Μετακίνηση Κάτω">▼</button>
+              ${addBtnHTML}
+            </div>
+          </div>
+        `;
+
+        let bodyHTML = '';
+        if (secKey === 'profile') {
+          bodyHTML = `<textarea id="inputProfile" rows="3" class="w-full p-2 bg-slate-900 text-xs border border-slate-700 rounded text-white leading-relaxed" oninput="state.profile=this.value; updateResume()">${state.profile}</textarea>`;
+        } else if (secKey === 'exp') {
+          bodyHTML = `<div id="expInputsList" class="space-y-3"></div>`;
+        } else if (secKey === 'edu') {
+          bodyHTML = `<div id="eduInputsList" class="space-y-3"></div>`;
+        } else if (secKey === 'sem') {
+          bodyHTML = `<div id="seminarInputsList" class="space-y-3"></div>`;
+        } else if (secKey === 'skills') {
+          bodyHTML = `<div id="skillInputsList" class="space-y-3"></div>`;
+        } else if (secKey === 'lic') {
+          bodyHTML = `<div id="licenseInputsList" class="space-y-3"></div>`;
+        } else if (secKey === 'lang') {
+          bodyHTML = `<div id="langInputsList" class="space-y-3"></div>`;
+        }
+
+        card.innerHTML = headerHTML + bodyHTML;
+        container.appendChild(card);
+      });
+
       renderExpInputs();
       renderEduInputs();
       renderSeminarInputs();
+      renderSkillInputs();
+      renderLicenseInputs();
       renderLangInputs();
     }
 
-    function renderSkillInputs() {
-      const container = document.getElementById('skillInputsList');
-      if (!container) return;
-      container.innerHTML = '';
-
-      state.skills.forEach((sk, index) => {
-        const item = document.createElement('div');
-        item.className = 'p-2.5 bg-slate-900 rounded border border-slate-700/80 space-y-2 text-xs';
-        item.innerHTML = `
-          <div class="flex justify-between items-center gap-2">
-            <input type="text" value="${sk.name}" oninput="state.skills[${index}].name=this.value; updateResume()" class="flex-1 p-1 bg-slate-800 border border-slate-700 rounded text-white font-semibold">
-            <button onclick="removeSkill(${index})" class="text-rose-400 hover:text-rose-300 font-bold px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="text-[11px] text-slate-400">Θέση Βούλας:</span>
-            <input type="range" min="0" max="100" value="${sk.pos}" oninput="state.skills[${index}].pos=this.value; updateResume()" class="flex-1 accent-rose-500 cursor-pointer">
-            <span class="text-[11px] text-slate-300 w-8 text-right font-mono">${sk.pos}%</span>
-          </div>
-        `;
-        container.appendChild(item);
-      });
-    }
-
-    function addSkillItem() {
-      state.skills.push({ name: "Νέα Δεξιότητα", pos: 100 });
-      renderSkillInputs();
-      updateResume();
-    }
-
-    function removeSkill(index) {
-      state.skills.splice(index, 1);
-      renderSkillInputs();
-      updateResume();
-    }
-
-    function renderLicenseInputs() {
-      const container = document.getElementById('licenseInputsList');
-      if (!container) return;
-      container.innerHTML = '';
-
-      state.licenses.forEach((lic, index) => {
-        const item = document.createElement('div');
-        item.className = 'p-2.5 bg-slate-900 rounded border border-slate-700/80 space-y-2 text-xs';
-        item.innerHTML = `
-          <div class="flex justify-between items-center gap-2">
-            <input type="text" value="${lic.name}" oninput="state.licenses[${index}].name=this.value; updateResume()" class="flex-1 p-1 bg-slate-800 border border-slate-700 rounded text-white font-semibold">
-            <button onclick="removeLicense(${index})" class="text-rose-400 hover:text-rose-300 font-bold px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="text-[11px] text-slate-400">Θέση Βούλας:</span>
-            <input type="range" min="0" max="100" value="${lic.pos}" oninput="state.licenses[${index}].pos=this.value; updateResume()" class="flex-1 accent-rose-500 cursor-pointer">
-            <span class="text-[11px] text-slate-300 w-8 text-right font-mono">${lic.pos}%</span>
-          </div>
-        `;
-        container.appendChild(item);
-      });
-    }
-
-    function addLicenseItem() {
-      state.licenses.push({ name: "Νέα Άδεια Οδήγησης", pos: 100 });
-      renderLicenseInputs();
-      updateResume();
-    }
-
-    function removeLicense(index) {
-      state.licenses.splice(index, 1);
-      renderLicenseInputs();
+    // ΜΕΤΑΚΙΝΗΣΗ ΚΑΙ RENDER ΕΓΓΡΑΦΩΝ (ITEM REORDER)
+    function moveExp(i, dir) {
+      const newIdx = i + dir;
+      if (newIdx < 0 || newIdx >= state.experiences.length) return;
+      const temp = state.experiences[i];
+      state.experiences[i] = state.experiences[newIdx];
+      state.experiences[newIdx] = temp;
+      renderExpInputs();
       updateResume();
     }
 
@@ -1303,12 +1270,18 @@
       container.innerHTML = '';
 
       state.experiences.forEach((exp, i) => {
+        const isFirst = (i === 0);
+        const isLast = (i === state.experiences.length - 1);
         const item = document.createElement('div');
         item.className = 'p-2.5 bg-slate-900 rounded border border-slate-700/80 space-y-2 text-xs relative';
         item.innerHTML = `
           <div class="flex justify-between items-center gap-2 mb-1">
             <span class="text-[11px] font-bold text-slate-400">Εγγραφή #${i+1}</span>
-            <button onclick="removeExp(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+            <div class="flex items-center gap-1">
+              <button onclick="moveExp(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Πάνω">▲</button>
+              <button onclick="moveExp(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Κάτω">▼</button>
+              <button onclick="removeExp(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+            </div>
           </div>
           <div class="flex justify-between gap-2">
             <input type="text" value="${exp.title}" oninput="state.experiences[${i}].title=this.value; updateResume()" placeholder="Τίτλος Θέσης" class="w-1/2 p-1 bg-slate-800 border border-slate-700 rounded text-white font-bold">
@@ -1334,18 +1307,34 @@
       updateResume();
     }
 
+    function moveEdu(i, dir) {
+      const newIdx = i + dir;
+      if (newIdx < 0 || newIdx >= state.educations.length) return;
+      const temp = state.educations[i];
+      state.educations[i] = state.educations[newIdx];
+      state.educations[newIdx] = temp;
+      renderEduInputs();
+      updateResume();
+    }
+
     function renderEduInputs() {
       const container = document.getElementById('eduInputsList');
       if (!container) return;
       container.innerHTML = '';
 
       state.educations.forEach((edu, i) => {
+        const isFirst = (i === 0);
+        const isLast = (i === state.educations.length - 1);
         const item = document.createElement('div');
         item.className = 'p-2.5 bg-slate-900 rounded border border-slate-700/80 space-y-2 text-xs relative';
         item.innerHTML = `
           <div class="flex justify-between items-center gap-2 mb-1">
             <span class="text-[11px] font-bold text-slate-400">Εκπαίδευση #${i+1}</span>
-            <button onclick="removeEdu(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+            <div class="flex items-center gap-1">
+              <button onclick="moveEdu(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Πάνω">▲</button>
+              <button onclick="moveEdu(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Κάτω">▼</button>
+              <button onclick="removeEdu(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+            </div>
           </div>
           <div class="flex justify-between gap-2">
             <input type="text" value="${edu.title}" oninput="state.educations[${i}].title=this.value; updateResume()" placeholder="Τίτλος" class="w-1/2 p-1 bg-slate-800 border border-slate-700 rounded text-white font-bold">
@@ -1371,18 +1360,34 @@
       updateResume();
     }
 
+    function moveSeminar(i, dir) {
+      const newIdx = i + dir;
+      if (newIdx < 0 || newIdx >= state.seminars.length) return;
+      const temp = state.seminars[i];
+      state.seminars[i] = state.seminars[newIdx];
+      state.seminars[newIdx] = temp;
+      renderSeminarInputs();
+      updateResume();
+    }
+
     function renderSeminarInputs() {
       const container = document.getElementById('seminarInputsList');
       if (!container) return;
       container.innerHTML = '';
 
       state.seminars.forEach((sem, i) => {
+        const isFirst = (i === 0);
+        const isLast = (i === state.seminars.length - 1);
         const item = document.createElement('div');
         item.className = 'p-2.5 bg-slate-900 rounded border border-slate-700/80 space-y-2 text-xs relative';
         item.innerHTML = `
           <div class="flex justify-between items-center gap-2 mb-1">
             <span class="text-[11px] font-bold text-slate-400">Σεμινάριο #${i+1}</span>
-            <button onclick="removeSeminar(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+            <div class="flex items-center gap-1">
+              <button onclick="moveSeminar(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Πάνω">▲</button>
+              <button onclick="moveSeminar(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Κάτω">▼</button>
+              <button onclick="removeSeminar(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+            </div>
           </div>
           <div class="flex justify-between gap-2">
             <input type="text" value="${sem.title}" oninput="state.seminars[${i}].title=this.value; updateResume()" placeholder="Τίτλος" class="w-2/3 p-1 bg-slate-800 border border-slate-700 rounded text-white font-bold">
@@ -1406,18 +1411,136 @@
       updateResume();
     }
 
+    function moveSkill(i, dir) {
+      const newIdx = i + dir;
+      if (newIdx < 0 || newIdx >= state.skills.length) return;
+      const temp = state.skills[i];
+      state.skills[i] = state.skills[newIdx];
+      state.skills[newIdx] = temp;
+      renderSkillInputs();
+      updateResume();
+    }
+
+    function renderSkillInputs() {
+      const container = document.getElementById('skillInputsList');
+      if (!container) return;
+      container.innerHTML = '';
+
+      state.skills.forEach((sk, i) => {
+        const isFirst = (i === 0);
+        const isLast = (i === state.skills.length - 1);
+        const item = document.createElement('div');
+        item.className = 'p-2.5 bg-slate-900 rounded border border-slate-700/80 space-y-2 text-xs';
+        item.innerHTML = `
+          <div class="flex justify-between items-center gap-2">
+            <input type="text" value="${sk.name}" oninput="state.skills[${i}].name=this.value; updateResume()" class="flex-1 p-1 bg-slate-800 border border-slate-700 rounded text-white font-semibold">
+            <div class="flex items-center gap-1">
+              <button onclick="moveSkill(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Πάνω">▲</button>
+              <button onclick="moveSkill(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Κάτω">▼</button>
+              <button onclick="removeSkill(${i})" class="text-rose-400 hover:text-rose-300 font-bold px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-[11px] text-slate-400">Θέση Βούλας:</span>
+            <input type="range" min="0" max="100" value="${sk.pos}" oninput="state.skills[${i}].pos=this.value; updateResume()" class="flex-1 accent-rose-500 cursor-pointer">
+            <span class="text-[11px] text-slate-300 w-8 text-right font-mono">${sk.pos}%</span>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function addSkillItem() {
+      state.skills.push({ name: "Νέα Δεξιότητα", pos: 100 });
+      renderSkillInputs();
+      updateResume();
+    }
+
+    function removeSkill(index) {
+      state.skills.splice(index, 1);
+      renderSkillInputs();
+      updateResume();
+    }
+
+    function moveLicense(i, dir) {
+      const newIdx = i + dir;
+      if (newIdx < 0 || newIdx >= state.licenses.length) return;
+      const temp = state.licenses[i];
+      state.licenses[i] = state.licenses[newIdx];
+      state.licenses[newIdx] = temp;
+      renderLicenseInputs();
+      updateResume();
+    }
+
+    function renderLicenseInputs() {
+      const container = document.getElementById('licenseInputsList');
+      if (!container) return;
+      container.innerHTML = '';
+
+      state.licenses.forEach((lic, i) => {
+        const isFirst = (i === 0);
+        const isLast = (i === state.licenses.length - 1);
+        const item = document.createElement('div');
+        item.className = 'p-2.5 bg-slate-900 rounded border border-slate-700/80 space-y-2 text-xs';
+        item.innerHTML = `
+          <div class="flex justify-between items-center gap-2">
+            <input type="text" value="${lic.name}" oninput="state.licenses[${i}].name=this.value; updateResume()" class="flex-1 p-1 bg-slate-800 border border-slate-700 rounded text-white font-semibold">
+            <div class="flex items-center gap-1">
+              <button onclick="moveLicense(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Πάνω">▲</button>
+              <button onclick="moveLicense(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Κάτω">▼</button>
+              <button onclick="removeLicense(${i})" class="text-rose-400 hover:text-rose-300 font-bold px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-[11px] text-slate-400">Θέση Βούλας:</span>
+            <input type="range" min="0" max="100" value="${lic.pos}" oninput="state.licenses[${i}].pos=this.value; updateResume()" class="flex-1 accent-rose-500 cursor-pointer">
+            <span class="text-[11px] text-slate-300 w-8 text-right font-mono">${lic.pos}%</span>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function addLicenseItem() {
+      state.licenses.push({ name: "Νέα Άδεια Οδήγησης", pos: 100 });
+      renderLicenseInputs();
+      updateResume();
+    }
+
+    function removeLicense(index) {
+      state.licenses.splice(index, 1);
+      renderLicenseInputs();
+      updateResume();
+    }
+
+    function moveLang(i, dir) {
+      const newIdx = i + dir;
+      if (newIdx < 0 || newIdx >= state.languages.length) return;
+      const temp = state.languages[i];
+      state.languages[i] = state.languages[newIdx];
+      state.languages[newIdx] = temp;
+      renderLangInputs();
+      updateResume();
+    }
+
     function renderLangInputs() {
       const container = document.getElementById('langInputsList');
       if (!container) return;
       container.innerHTML = '';
 
       state.languages.forEach((lang, i) => {
+        const isFirst = (i === 0);
+        const isLast = (i === state.languages.length - 1);
         const item = document.createElement('div');
         item.className = 'p-2.5 bg-slate-900 rounded border border-slate-700/80 space-y-2 text-xs relative';
         item.innerHTML = `
           <div class="flex justify-between items-center gap-2">
             <input type="text" value="${lang.name}" oninput="state.languages[${i}].name=this.value; updateResume()" placeholder="Γλώσσα" class="flex-1 p-1 bg-slate-800 border border-slate-700 rounded text-white font-bold">
-            <button onclick="removeLang(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+            <div class="flex items-center gap-1">
+              <button onclick="moveLang(${i}, -1)" ${isFirst ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Πάνω">▲</button>
+              <button onclick="moveLang(${i}, 1)" ${isLast ? 'disabled class="opacity-30 cursor-not-allowed text-slate-500 px-1.5 py-0.5 rounded text-[11px] bg-slate-800"' : 'class="text-slate-300 hover:text-white px-1.5 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 transition"'} title="Κάτω">▼</button>
+              <button onclick="removeLang(${i})" class="text-rose-400 hover:text-rose-300 font-bold text-[11px] px-2 py-0.5 bg-rose-950/50 hover:bg-rose-900/60 rounded transition">✕ Διαγραφή</button>
+            </div>
           </div>
           <div class="flex items-center gap-3">
             <span class="text-[11px] text-slate-400">Θέση Βούλας:</span>
@@ -1464,8 +1587,8 @@
       if (state.templateClass === 'tpl-emerald') {
         return `
           <div class="relative z-10 text-center pt-2 pb-4 mb-4 border-b-2 border-amber-500">
-            <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-amber-400 mx-auto mb-2 shadow">
-              <img src="${state.photoUrl}" class="w-full h-full object-cover">
+            <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-amber-400 mx-auto mb-2 shadow" style="border-radius: 50% !important; overflow: hidden !important;">
+              <img src="${state.photoUrl}" class="w-full h-full object-cover rounded-full" style="border-radius: 50% !important; width: 100%; height: 100%; object-fit: cover;">
             </div>
             <div class="bg-slate-800 text-amber-400 inline-block px-4 py-1.5 rounded-lg font-black uppercase text-lg shadow border border-amber-300">
               ${state.name || ''}
@@ -1487,8 +1610,8 @@
                 <p class="text-xs text-emerald-700">// ${state.address}</p>
                 <p class="text-xs text-slate-600">// ${state.phone} | ${state.email}</p>
               </div>
-              <div class="w-16 h-16 rounded border border-emerald-500 overflow-hidden">
-                <img src="${state.photoUrl}" class="w-full h-full object-cover">
+              <div class="w-16 h-16 rounded border border-emerald-500 overflow-hidden" style="border-radius: 50% !important; overflow: hidden !important; width: 64px; height: 64px;">
+                <img src="${state.photoUrl}" class="w-full h-full object-cover rounded-full" style="border-radius: 50% !important; width: 100%; height: 100%; object-fit: cover;">
               </div>
             </div>
             <div class="text-emerald-600 font-bold text-xs">&lt;/header_info&gt;</div>
@@ -1508,8 +1631,8 @@
               </div>
             </div>
             <div class="relative z-20 flex-shrink-0">
-              <div class="w-[105px] h-[105px] rounded-full overflow-hidden border-[3px] border-white shadow-md bg-slate-200">
-                <img src="${state.photoUrl}" alt="${state.name}" class="w-full h-full object-cover object-top">
+              <div class="w-[105px] h-[105px] border-[3px] border-white shadow-md bg-slate-200" style="border-radius: 50% !important; overflow: hidden !important; width: 105px; height: 105px;">
+                <img src="${state.photoUrl}" alt="${state.name}" class="w-full h-full object-cover object-top" style="border-radius: 50% !important; width: 100%; height: 100%; object-fit: cover;">
               </div>
             </div>
           </div>
@@ -1600,6 +1723,7 @@
       return pageDiv;
     }
 
+    // ΔΥΝΑΜΙΚΗ ΡΟΗ ΚΕΙΜΕΝΟΥ ΜΕ ΒΑΣΗ ΤΗ ΣΕΙΡΑ ΚΑΙ ΤΟΥΣ ΤΙΤΛΟΥΣ
     function updateResume() {
       const inpName = document.getElementById('inputName');
       if (inpName) state.name = inpName.value || state.name;
@@ -1613,13 +1737,9 @@
       const inpMail = document.getElementById('inputEmail');
       if (inpMail) state.email = inpMail.value || state.email;
 
-      const inpProf = document.getElementById('inputProfile');
-      if (inpProf) state.profile = inpProf.value || state.profile;
-
       const container = document.getElementById('a4PagesContainer');
       if (!container) return;
 
-      // ΕΞΑΣΦΑΛΙΣΗ ΔΙΑΣΤΑΣΕΩΝ ΚΑΤΑ ΤΗΝ ΕΜΦΑΝΙΣΗ/ΜΕΤΡΗΣΗ
       const tabViewer = document.getElementById('tabViewer');
       const wasHidden = tabViewer && window.getComputedStyle(tabViewer).display === 'none';
       let oldStyle = '';
@@ -1665,148 +1785,139 @@
 
       const flowElements = [];
 
-      // 1. Profile
-      if (state.profile && state.profile.trim() !== '') {
-        const profEl = document.createElement('div');
-        profEl.className = 'cv-block mb-3';
-        profEl.innerHTML = `
-          ${generateSectionPillHTML("Προφίλ", "👤")}
-          <p class="text-justify font-medium" style="font-size: var(--font-scale-base); line-height: 1.4;">${state.profile}</p>
-        `;
-        flowElements.push({ type: 'block', el: profEl, section: 'profile' });
-      }
+      // ΔΗΜΙΟΥΡΓΙΑ ΣТОΙΧΕΙΩΝ ΡΟΗΣ ΜΕ ΒΑΣΗ ΤΗ ΣΕΙΡΑ state.sectionOrder
+      state.sectionOrder.forEach((secKey) => {
+        if (secKey === 'profile') {
+          if (state.profile && state.profile.trim() !== '') {
+            const profEl = document.createElement('div');
+            profEl.className = 'cv-block mb-3';
+            profEl.innerHTML = `
+              ${generateSectionPillHTML(state.sectionTitles.profile || "Προφίλ", "👤")}
+              <p class="text-justify font-medium" style="font-size: var(--font-scale-base); line-height: 1.4;">${state.profile}</p>
+            `;
+            flowElements.push({ type: 'block', el: profEl, section: 'profile' });
+          }
+        } else if (secKey === 'exp') {
+          if (state.experiences && state.experiences.length > 0) {
+            const expHeader = document.createElement('div');
+            expHeader.className = 'section-header-exp mb-1';
+            expHeader.dataset.sectionHeader = 'exp';
+            expHeader.innerHTML = generateSectionPillHTML(state.sectionTitles.exp || "ΕΠΑΓΓΕΛΜΑΤΙΚΗ ΕΜΠΕΙΡΙΑ", "💼");
+            flowElements.push({ type: 'header', el: expHeader, section: 'exp' });
 
-      // 2. Work Experience
-      if (state.experiences && state.experiences.length > 0) {
-        const expHeader = document.createElement('div');
-        expHeader.className = 'section-header-exp mb-1';
-        expHeader.dataset.sectionHeader = 'exp';
-        expHeader.innerHTML = generateSectionPillHTML("ΕΠΑΓΓΕΛΜΑΤΙΚΗ ΕΜΠΕΙΡΙΑ", "💼");
-        flowElements.push({ type: 'header', el: expHeader, section: 'exp' });
+            state.experiences.forEach((exp) => {
+              const itemEl = document.createElement('div');
+              itemEl.className = 'exp-item mb-2.5 font-medium';
+              itemEl.style.fontSize = 'var(--font-scale-base)';
+              itemEl.innerHTML = `
+                <div class="font-bold uppercase tracking-wide opacity-60 mb-0.5" style="font-size: calc(var(--font-scale-base) * 0.85);">${exp.year}${exp.location ? '&nbsp;&nbsp;&nbsp;&nbsp; ' + exp.location : ''}</div>
+                <div class="font-extrabold text-black" style="font-size: calc(var(--font-scale-base) * 1.05); line-height: 1.3;">${exp.title}</div>
+                <div class="font-extrabold" style="font-size: var(--font-scale-base); line-height: 1.3;">${exp.subtitle}</div>
+                <div class="opacity-80" style="font-size: calc(var(--font-scale-base) * 0.95); line-height: 1.3;">${exp.desc}</div>
+              `;
+              flowElements.push({ type: 'item', el: itemEl, section: 'exp' });
+            });
+          }
+        } else if (secKey === 'edu') {
+          if (state.educations && state.educations.length > 0) {
+            const eduHeader = document.createElement('div');
+            eduHeader.className = 'section-header-edu mb-1';
+            eduHeader.dataset.sectionHeader = 'edu';
+            eduHeader.innerHTML = generateSectionPillHTML(state.sectionTitles.edu || "ΕΚΠΑΙΔΕΥΣΗ", "🎓");
+            flowElements.push({ type: 'header', el: eduHeader, section: 'edu' });
 
-        state.experiences.forEach((exp) => {
-          const itemEl = document.createElement('div');
-          itemEl.className = 'exp-item mb-2.5 font-medium';
-          itemEl.style.fontSize = 'var(--font-scale-base)';
-          itemEl.innerHTML = `
-            <div class="font-bold uppercase tracking-wide opacity-60 mb-0.5" style="font-size: calc(var(--font-scale-base) * 0.85);">${exp.year}${exp.location ? '&nbsp;&nbsp;&nbsp;&nbsp; ' + exp.location : ''}</div>
-            <div class="font-extrabold text-black" style="font-size: calc(var(--font-scale-base) * 1.05); line-height: 1.3;">${exp.title}</div>
-            <div class="font-extrabold" style="font-size: var(--font-scale-base); line-height: 1.3;">${exp.subtitle}</div>
-            <div class="opacity-80" style="font-size: calc(var(--font-scale-base) * 0.95); line-height: 1.3;">${exp.desc}</div>
-          `;
-          flowElements.push({ type: 'item', el: itemEl, section: 'exp' });
-        });
-      }
+            state.educations.forEach((edu) => {
+              const itemEl = document.createElement('div');
+              itemEl.className = 'edu-item mb-2.5 font-medium';
+              itemEl.style.fontSize = 'var(--font-scale-base)';
+              itemEl.innerHTML = `
+                <div class="font-bold uppercase tracking-wide opacity-60 mb-0.5" style="font-size: calc(var(--font-scale-base) * 0.85);">${edu.year}${edu.location ? '&nbsp;&nbsp;&nbsp;&nbsp; ' + edu.location : ''}</div>
+                <div class="font-extrabold text-black" style="font-size: calc(var(--font-scale-base) * 1.05); line-height: 1.3;">${edu.title}</div>
+                <div class="font-extrabold" style="font-size: var(--font-scale-base); line-height: 1.3;">${edu.subtitle}</div>
+                <div class="opacity-80 whitespace-pre-line" style="font-size: calc(var(--font-scale-base) * 0.9); line-height: 1.3;">${edu.desc}</div>
+              `;
+              flowElements.push({ type: 'item', el: itemEl, section: 'edu' });
+            });
+          }
+        } else if (secKey === 'sem') {
+          if (state.seminars && state.seminars.length > 0) {
+            const semHeader = document.createElement('div');
+            semHeader.className = 'section-header-sem mb-1';
+            semHeader.dataset.sectionHeader = 'sem';
+            semHeader.innerHTML = generateSectionPillHTML(state.sectionTitles.sem || "ΣΕΜΙΝΑΡΙΑ", "📜");
+            flowElements.push({ type: 'header', el: semHeader, section: 'sem' });
 
-      // 3. Education
-      if (state.educations && state.educations.length > 0) {
-        const eduHeader = document.createElement('div');
-        eduHeader.className = 'section-header-edu mb-1';
-        eduHeader.dataset.sectionHeader = 'edu';
-        eduHeader.innerHTML = generateSectionPillHTML("ΕΚΠΑΙΔΕΥΣΗ", "🎓");
-        flowElements.push({ type: 'header', el: eduHeader, section: 'edu' });
-
-        state.educations.forEach((edu) => {
-          const itemEl = document.createElement('div');
-          itemEl.className = 'edu-item mb-2.5 font-medium';
-          itemEl.style.fontSize = 'var(--font-scale-base)';
-          itemEl.innerHTML = `
-            <div class="font-bold uppercase tracking-wide opacity-60 mb-0.5" style="font-size: calc(var(--font-scale-base) * 0.85);">${edu.year}${edu.location ? '&nbsp;&nbsp;&nbsp;&nbsp; ' + edu.location : ''}</div>
-            <div class="font-extrabold text-black" style="font-size: calc(var(--font-scale-base) * 1.05); line-height: 1.3;">${edu.title}</div>
-            <div class="font-extrabold" style="font-size: var(--font-scale-base); line-height: 1.3;">${edu.subtitle}</div>
-            <div class="opacity-80 whitespace-pre-line" style="font-size: calc(var(--font-scale-base) * 0.9); line-height: 1.3;">${edu.desc}</div>
-          `;
-          flowElements.push({ type: 'item', el: itemEl, section: 'edu' });
-        });
-      }
-
-      // 4. Seminars
-      if (state.seminars && state.seminars.length > 0) {
-        const semHeader = document.createElement('div');
-        semHeader.className = 'section-header-sem mb-1';
-        semHeader.dataset.sectionHeader = 'sem';
-        semHeader.innerHTML = generateSectionPillHTML("ΣΕΜΙΝΑΡΙΑ", "📜");
-        flowElements.push({ type: 'header', el: semHeader, section: 'sem' });
-
-        state.seminars.forEach((sem) => {
-          const itemEl = document.createElement('div');
-          itemEl.className = 'sem-item mb-2.5 font-medium';
-          itemEl.style.fontSize = 'var(--font-scale-base)';
-          itemEl.innerHTML = `
-            <div class="font-bold opacity-60 mb-0.5" style="font-size: calc(var(--font-scale-base) * 0.85);">${sem.year}</div>
-            <div class="font-extrabold text-black" style="font-size: calc(var(--font-scale-base) * 1.02); line-height: 1.3;">${sem.title}</div>
-            <div class="opacity-70" style="font-size: calc(var(--font-scale-base) * 0.9); line-height: 1.3;">${sem.sub}</div>
-          `;
-          flowElements.push({ type: 'item', el: itemEl, section: 'sem' });
-        });
-      }
-
-      // 5. Skills & Licenses
-      if ((state.skills && state.skills.length > 0) || (state.licenses && state.licenses.length > 0)) {
-        const skillsEl = document.createElement('div');
-        skillsEl.className = 'cv-block mb-3';
-        
-        let skillsHTML = generateSectionPillHTML("ΔΕΞΙΟΤΗΤΕΣ", "⚖️");
-        if (state.skills && state.skills.length > 0) {
-          skillsHTML += `
-            <div class="font-extrabold uppercase mb-1.5 border-b pb-0.5 border-slate-300" style="font-size: var(--font-scale-base); color: var(--color-heading);">
-              - ΔΕΞΙΟΤΗΤΕΣ
-            </div>
-            <div class="space-y-2 mb-3">
-              ${state.skills.map(sk => `
-                <div class="skill-slider-row">
-                  <span class="skill-slider-label">${sk.name}</span>
-                  <div class="skill-slider-track">
-                    <div class="skill-slider-dot" style="left: ${sk.pos}%;"></div>
+            state.seminars.forEach((sem) => {
+              const itemEl = document.createElement('div');
+              itemEl.className = 'sem-item mb-2.5 font-medium';
+              itemEl.style.fontSize = 'var(--font-scale-base)';
+              itemEl.innerHTML = `
+                <div class="font-bold opacity-60 mb-0.5" style="font-size: calc(var(--font-scale-base) * 0.85);">${sem.year}</div>
+                <div class="font-extrabold text-black" style="font-size: calc(var(--font-scale-base) * 1.02); line-height: 1.3;">${sem.title}</div>
+                <div class="opacity-70" style="font-size: calc(var(--font-scale-base) * 0.9); line-height: 1.3;">${sem.sub}</div>
+              `;
+              flowElements.push({ type: 'item', el: itemEl, section: 'sem' });
+            });
+          }
+        } else if (secKey === 'skills') {
+          if (state.skills && state.skills.length > 0) {
+            const skillsEl = document.createElement('div');
+            skillsEl.className = 'cv-block mb-3';
+            skillsEl.innerHTML = `
+              ${generateSectionPillHTML(state.sectionTitles.skills || "ΔΕΞΙΟΤΗΤΕΣ", "⚖️")}
+              <div class="space-y-2">
+                ${state.skills.map(sk => `
+                  <div class="skill-slider-row">
+                    <span class="skill-slider-label">${sk.name}</span>
+                    <div class="skill-slider-track">
+                      <div class="skill-slider-dot" style="left: ${sk.pos}%;"></div>
+                    </div>
                   </div>
-                </div>
-              `).join('')}
-            </div>
-          `;
-        }
-        if (state.licenses && state.licenses.length > 0) {
-          skillsHTML += `
-            <div class="font-extrabold uppercase mt-2 mb-1.5 border-b pb-0.5 border-slate-300" style="font-size: var(--font-scale-base); color: var(--color-heading);">
-              - ΑΔΕΙΕΣ ΟΔΗΓΗΣΗΣ
-            </div>
-            <div class="space-y-2">
-              ${state.licenses.map(lic => `
-                <div class="skill-slider-row">
-                  <span class="skill-slider-label">${lic.name}</span>
-                  <div class="skill-slider-track">
-                    <div class="skill-slider-dot" style="left: ${lic.pos}%;"></div>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          `;
-        }
-        skillsEl.innerHTML = skillsHTML;
-        flowElements.push({ type: 'block', el: skillsEl, section: 'skills' });
-      }
-
-      // 6. Languages
-      if (state.languages && state.languages.length > 0) {
-        const langEl = document.createElement('div');
-        langEl.className = 'cv-block mb-3';
-        langEl.innerHTML = `
-          ${generateSectionPillHTML("ΞΕΝΕΣ ΓΛΩΣΣΕΣ", "🌐")}
-          <div class="font-extrabold uppercase mb-1.5 border-b pb-0.5 border-slate-300" style="font-size: var(--font-scale-base); color: var(--color-heading);">
-            - ΞΕΝΕΣ ΓΛΩΣΣΕΣ
-          </div>
-          <div class="space-y-2">
-            ${state.languages.map(lang => `
-              <div class="skill-slider-row">
-                <span class="skill-slider-label">${lang.name}</span>
-                <div class="skill-slider-track">
-                  <div class="skill-slider-dot" style="left: ${lang.pos}%;"></div>
-                </div>
+                `).join('')}
               </div>
-            `).join('')}
-          </div>
-        `;
-        flowElements.push({ type: 'block', el: langEl, section: 'lang' });
-      }
+            `;
+            flowElements.push({ type: 'block', el: skillsEl, section: 'skills' });
+          }
+        } else if (secKey === 'lic') {
+          if (state.licenses && state.licenses.length > 0) {
+            const licEl = document.createElement('div');
+            licEl.className = 'cv-block mb-3';
+            licEl.innerHTML = `
+              ${generateSectionPillHTML(state.sectionTitles.lic || "ΑΔΕΙΕΣ ΟΔΗΓΗΣΗΣ", "🚗")}
+              <div class="space-y-2">
+                ${state.licenses.map(lic => `
+                  <div class="skill-slider-row">
+                    <span class="skill-slider-label">${lic.name}</span>
+                    <div class="skill-slider-track">
+                      <div class="skill-slider-dot" style="left: ${lic.pos}%;"></div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            `;
+            flowElements.push({ type: 'block', el: licEl, section: 'lic' });
+          }
+        } else if (secKey === 'lang') {
+          if (state.languages && state.languages.length > 0) {
+            const langEl = document.createElement('div');
+            langEl.className = 'cv-block mb-3';
+            langEl.innerHTML = `
+              ${generateSectionPillHTML(state.sectionTitles.lang || "ΞΕΝΕΣ ΓΛΩΣΣΕΣ", "🌐")}
+              <div class="space-y-2">
+                ${state.languages.map(lang => `
+                  <div class="skill-slider-row">
+                    <span class="skill-slider-label">${lang.name}</span>
+                    <div class="skill-slider-track">
+                      <div class="skill-slider-dot" style="left: ${lang.pos}%;"></div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            `;
+            flowElements.push({ type: 'block', el: langEl, section: 'lang' });
+          }
+        }
+      });
 
       let currentPageIdx = 0;
       let currentColName = 'left';
