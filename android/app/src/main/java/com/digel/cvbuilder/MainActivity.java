@@ -23,7 +23,14 @@ public class MainActivity extends BridgeActivity {
                 runOnUiThread(() -> {
                     PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
                     PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter("CV_Resume");
-                    printManager.print("CV_Resume_Job", printAdapter, new PrintAttributes.Builder().build());
+                    
+                    // Ορισμός A4 μεγέθους και ZERO margins ώστε να μην κόβονται οι σελίδες
+                    PrintAttributes attributes = new PrintAttributes.Builder()
+                        .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+                        .setMinMargins(PrintAttributes.Margins.ZERO)
+                        .build();
+
+                    printManager.print("CV_Resume_Job", printAdapter, attributes);
                 });
             }
         }, "AndroidPrint");
@@ -33,8 +40,7 @@ public class MainActivity extends BridgeActivity {
             @Override
             public void handleOnBackPressed() {
                 webView.evaluateJavascript("handleAndroidBack()", value -> {
-                    // Αν η handleAndroidBack() επιστρέψει "false", κλείνει η εφαρμογή
-                    if ("false".equals(value)) {
+                    if ("false".equals(value) || value == null || "null".equals(value)) {
                         finish();
                     }
                 });
